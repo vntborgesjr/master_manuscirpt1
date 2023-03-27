@@ -1,0 +1,189 @@
+---
+title: "Biota Neotropica"
+subtitle: "Dynamics of a neotropical stream-dwelling tadpole: the case of Aplastodiscus eugenioi (Anura: Hylidae) in the Brazilian Atlantic rainforest"
+author: "Vitor Nelson Teixeira Borges-Júnior^[Corresponding author.], Jane F. de Oliveira, Monique Van-Sluys and Carlos Frederico Duarte da Rocha"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+csl: "/home/usuario/Documentos/Vitor/Manuscritos/Em preparação/biota_neotropica/isc/biota-neotropica.csl"
+link_citations: yes
+linkcolor: blue
+output: 
+   word_document:
+     reference_docx: "/home/usuario/Documentos/Vitor/Manuscritos/Em preparação/biota_neotropica/isc/bn-template.docx"
+     number_sections: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Abstract 
+
+The understanding of reproductive patterns of organisms with complex life cycles such as Anurans and of what determines the persistence of their populations depend on the knowledge of population dynamics of both adult and larval life stages. This study aims to evaluate the abundance, development, age structure, and trend of the population size of Aplastodiscus eugenioi tadpoles in habitats with distinct hydric conditions. We sampled tadpoles monthly during a three-year period in one permanent and one temporary stream in southeastern Brazil. We accessed information on abundance, body size and development stage of tadpoles in each stream. Tadpoles were about seven times more abundant in the permanent stream and the size of tadpole populations followed opposite trends. In the permanent stream the number of tadpoles tended to increase while in the temporary stream the trend of tadpole population was to decrease. The effect of rainfall in the present month on the abundance of tadpoles also differed between streams. Despite differences, tadpoles presented similar age structure. There was an extensive presence of small sized tadpoles and non-metamorphic tadpoles attained larger sizes in the permanent stream. Our results indicate that A. eugenioi reproduced extensively throughout the year and that permanent habitats are more suitable to growth and develop as it hosted larger populations and non-metamorphic tadpoles were larger than in temporary ones. 
+
+Keywords: tropical forest streams; temporary streams; permanent stream, population dynamics.
+
+# Introduction
+
+Different processes regulate the population of organisms with complex life cycles. In anurans, biotic interactions and abiotic factors that make up the structure and the physical and chemical environment where larvae inhabit directly interfere on the selection of breeding site by adults. Predation and competition may determine where anuran larvae growth and development take place [@; @](Koop, Wachlevski and Eterovick, 2006; Buxton and Sperry, 2017). The suitability of habitats to the occurrence of tadpoles is also influenced, for example, by hydroperiod, water flow, depth, heterogeneity of microhabitats and temperature [@; @](Eterovick and Barata, 2006; Strauβ et al., 2013). In the aquatic habitat, biotic interactions and abiotic factors interfere more directly on the regulation of larval stages. Predation and competition interfere on microhabitat preferences and mortality of tadpoles [@; @](Koop, Wachlevski and Eterovick, 2006; Buxton and Sperry, 2017). Water temperature may have negative effects on the survival of tadpoles and its effects may be mediated by the level of nutrients [@](Catenazzi and Kupferberg, 2013). The population dynamics of tadpoles and their success in the habitats they live is actually determined by the interaction of processes that act on both life stages.
+
+During the larva stage tadpole growth and development present important adaptations in response to hydroperiod [@](Borges-Júnior and Rocha, 2013). In ephemeral habitats, species tend to have slower growth rates and a high investment in development, which result in smaller size at metamorphosis and reduced mortality risks (e.g. drying) [@; @](Cuello et al., 2014; Székely et al., 2017). Tadpoles tend to be smaller at the end of metamorphosis in ephemeral habitats [@; @](Székely, Cogalniceanu and Tudor, 2010; Székely et al., 2017). On the other hand, in water bodies more stable in terms of water levels species may have a longer larval period, metamorphosing at larger sizes [@; @](Márquez-Garcia et al., 2009; Gomez-Mestre, Kulkarni and Buchholz, 2013). Tadpoles of anuran species that reproduce in habitats with both long and short hydroperiods should be able to adjust their size at metamorphose according to the conditions they face [e.g. @; @](e.g. Cuello et al., 2014; Gomez-Mestre, Kulkarni and Buchholz, 2013). 
+
+The knowledge of population dynamic of the tadpole life stage is critical to understand the annual reproductive activity of anuran species and, ultimately, the persistence of whole populations. The presence of small, recently hatched, tadpoles in water bodies indicates recent breeding activity and helps to understand the reproductive pattern of a species [e.g. @; @; @](e.g. Leite, Pacheco and Eterovick, 2008; Almeida-Gomes et al., 2012; Fatorelli et al., 2015). Differential survival rates as a function of water body characteristic may highlight the importance of a reproductive habitat type for the persistence of a species [e.g. @](e.g. Ribeiro and Rebelo, 2011). Despite the regulation of populations in anurans takes place from egg to adult stage [@; @](Hellriegel, 2000; Vonesh and De La Cruz, 2002), studies are still focused on adults [e.g. @; @; @](e.g. Grafe et al., 2004; Schmidt, Feldman and Schaub et al., 2005; Leskovar et al., 2006). 
+
+In this study, we investigated the abundance, development, age structure, and population size of tadpoles of the hylid Aplastodiscus eugenioi over a 3-year period, in two different habitats: one permanent and one temporary stream. Reproduction in the genus Aplastodiscus is closely related to rainfall [e.g. @](e.g. Zina and Haddad 2007), although there is no available information specifically for A. eugenioi. The benthic tadpoles of A. eugenioi develop in habitats with different hydric conditions like flowing streams and flooded areas inside the forest [@; @](Hartmann, Hartmann and Haddad, 2004; Carvalho-and-Silva and Carvalho-and-Silva, 2005). Considering the diversity of streams where A. eugenioi tadpoles develop, it is reasonable to expect that populations inhabiting streams that markedly differ in terms of water availability and habitat complexity would differ in their dynamics. We hypothesized that the two populations of tadpoles of A. eugenioi in this study would differ in abundance, body sizes and developmental stages between streams. We specifically aimed to answer the following questions: i) Were tadpoles more numerous in permanent than in temporary streams?; ii) How was tadpole abundance affected by rainfall? iii) Did trend in the time series of abundance of tadpoles differ between habitats?; iv) What was the tadpole age structure in each stream?; v) Did age structures differ between rainy and dry seasons? and vi) Do tadpoles of similar development stages differ in body length between the two type of habitats?
+
+
+# Material and Methods
+
+## Study site
+
+We collected data monthly from April 2002 to March 2005 in the Atlantic rainforest of Ilha Grande (23o11’ S, 44o12’ W), a large island on the southern coast of Rio de Janeiro state, southeastern Brazil. Annual rainfall is 2200 mm, and mean annual temperature is 22.5oC [@](NUCLEN, 2006). We considered as dry season the period from April to September (126.1 mm mean rainfall in the studied period), and as rainy season the period from October to March (286.3 mm mean rainfall in the studied period). 
+
+We studied two streams located in different catchments. We defined stream 1 (23o11’S, 44o12’W) as permanent stream because it held water during all study period, with relatively constant water level. We defined stream 2 (23o12’S, 44o13’W) as temporary stream because its water level and availability varied through time, and during some periods this habitat was reduced to a linear series of disconnected pools, fed by subsurface flow that eventually dried during the dry season. Streams were distant about 1 km from each other.
+
+## Sampling methods 
+
+To access information on available microhabitat, depth, and water temperature of each stream and abundance and class of development of tadpoles, we demarcated 25 sampling units along 50 meters of each stream. We considered each 2-meter interval as our sampling unit to estimate tadpole abundance. Each month, we randomly sampled 15 2-meter intervals, totaling 30 meters of each stream. 
+
+To characterize the habitat structure of streams we recorded the available microhabitats – classified as leaf litter, rock, sand and silt - at the beginning, middle and end of the sampling units. If water was present, we also measured water depth and temperature at the same points as above. We noted if the sampling unit was dry. To estimate tadpoles’ abundance (number of individuals) we sampled each sampling unit of each stream once a month with the use of dip nets. At each stream interval, one of us (VNTBJ) systematically passed the dipnet at the bottom and surface of streams in order to cover the entire volume of each sampling unit. All tadpoles captured were kept in plastic recipients (one for each sampling unit) containing water from the stream until the sampling was completed, to assure that tadpoles were sampled only once per month. We transferred tadpoles immediately to a plastic tray, where we measured all individuals in their body length (BL), with a caliper rule (precision of 0.1 mm). After measurements, we released tadpoles at the same sampling unit where they were captured. We identified the stages of development of tadpoles according to Gosner (1960) and classified them in three developmental classes following Fatorelli et al. (2010): Class I - tadpoles without apparent limbs (up to stage 25); Class II - tadpoles with developing hind limbs and fore limbs not exposed (stages 26-41); and Class III - tadpoles with well-developed hind limbs and exposed fore limbs (stages 42-46). We estimated the monthly abundance and the distribution of body lengths of tadpoles per class of development during the study. In order to detect the recruitment of tadpoles into both streams, we divided Class I in two sub-Classes. Sub-Class I.1 included the smallest tadpoles up to 5.0mm of body length. We considered these tadpoles more likely to have hatched in the previous 30 days. Sub-Class I.2 contained all remaining tadpoles up to stage 25.  
+
+## Data analyses
+
+We analyzed the habitat structure of streams by first comparing the frequency of occurrence of each type of available microhabitat and the proportion of sampling units that were dry during the study. Secondly, we tested if the average of water depth and water temperature of each interval differed between streams using analysis of variance (one-way ANOVA) [@](Gotelli and Ellison, 2004). 
+
+We evaluated if tadpole abundance was affected by mean rainfall using generalized linear models (GLMs) with a Poisson distribution and a log-link function to deal with count data [@](Zuur et al., 2009), and a model selection approach [@](Burnham and Anderson, 2002). We built two different models. In the first we used the mean rainfall of the current month as predictor variable. To test for time lag in the response of tadpole abundance to rainfall we used the mean rainfall of the previous month as predictor variable in the second model. For each model, we calculated the Akaike’s Information Criterion for small samples (AICc) and the weight of evidence (wi). If a model had a Δi < 2 then there was considerable evidence that the model could be the best model, given the data [@](Johnson and Omland, 2004). The weight of evidence represents the ‘probability that a model i is the best model for the observed data, given the candidate set of models’ [@](Johnson and Omland, 2004), so it was also used as a criterion to choose the best model. We added a null model (e.g. lack of effect of rainfall) that had only the intercept term and error parameter. 
+
+We investigated for trends in the tadpoles’ abundance by regressing the time series of number of tadpoles from each stream against a dummy variable that simulate time [@](Legendre and Legendre, 2012). We can interpret the coefficient of these regressions as the rate of change in the number of tadpoles through time if we assume this rate was constant during the study. Positive values indicate that the population is increasing, whereas negative ones indicate that the number of tadpoles decreased with time. 
+
+We used one-way ANOVA [@](Gotelli and Ellison, 2004) to test whether: (1) the abundance of tadpoles differed between streams; (2) tadpoles of different development classes tended to be more abundant in the rainy or in the dry season at each stream; and (3) tadpoles of the same development stage differed in body length between permanent and temporary streams. We used the non-parametric test of Kurskal-Wallis [@](Zar, 1999) when the premise of homocedasticity of the residuals was not met. We ran statistical analyses using R [@](R Development Core Team, 2016). We obtained rainfall data from the Meteorological Station of the Central Nuclear Almirante Álvaro Alberto (CNAAA), located about 30 km from the study area.
+
+# Results
+
+## Habitat structure of streams
+
+The streams differed in terms of water flow, depth, and microhabitat availability but not in water temperature. The permanent stream regularly had water, at relatively constant levels, during the study period, with no dry sampling units at any time, and was on average shallower (9.41 + 18.43 cm, range = 1.0-166.5 cm, n = 36) then the temporary stream (18.72 + 26.76, range = 0-250 cm, n = 29; Kruskal-Wallis, X 2 = 201.86, P < 0.001). The main available microhabitats were leaf litter (45.55%; n = 900), silt (40.0%; n = 288) and sand (14.55%; n = 792). On the other hand, all sampling units completely dried out in seven occasions at the temporary stream where we observed a much larger variation in water depth. The main microhabitats available in the temporary stream were leaf litter (37.5%; n = 864), rock (31.25%; n = 720), and sand (31.25%; n = 720). Despite these differences, water temperature did not differ between permanent (21.72 + 3.01 oC, 15-25 oC, n = 36) and temporary streams (21.43 + 1.58 oC, 19-24.4 oC, n = 29; ANOVA, R2 = 0.001; F1.727 = 1.89, P = 0.17). 
+
+## Tadpole dynamics
+
+We captured and measured 1687 tadpoles of A. eugenioi in the two streams. The abundance of tadpoles significantly differed between the permanent and temporary streams (Kruskal-Wallis, X2 = 40.73, P < 0.01); there were about seven times more tadpoles in the permanent stream (n = 1490) than in the temporary stream (n = 197). 
+
+The relationship between rainfall and the abundance of tadpoles differed between permanent and temporary streams (fig. 1). The best model (Δi  = 2) indicates that rainfall of the current month has a weak but positive effect on the abundance of tadpoles in the permanent stream (table 1). The null model could not be totally rejected as Δi was smaller than 2 but, the lack of effect of the rainfall on tadpole abundance is less likely (wi = 0.245) than its effect in permanent streams (wi = 0.615). The effect of rainfall of the current month on the abundance of tadpoles was also the most plausible model in the temporary stream. The effect of rainfall was also weak but negative in this habitat (table 1).
+
+Tadpoles of A. eugenioi occurred continuously during the study (n = 36 months) in the permanent stream. Overall, the number of tadpoles increased in this habitat along the study (R2 = 0.17, estimate = 9.57, P = 0.006) (fig. 1). Conversely, tadpoles were found less frequently (n = 26 months) in the temporary stream and the tadpole population decreased throughout the study (R2 = 0.13, estimate = - 4.66, P = 0.016) (fig. 1).
+
+ The age structure (= development stage) of tadpoles was similar between permanent and temporary streams and did not differ between the rainy and dry season (table 2), except for tadpoles of class I.2. 
+ 
+In the permanent stream, tadpoles of class I.1 were more frequent (30.5%, n = 11 months) and abundant (2.5%, n = 38) in dry season months (fig. 2A). We found no statistical difference in the abundance of class I.1 tadpoles between seasons (ANOVA, R2 = 0.004, F1.34 = 1.146, P = 0.292). Tadpoles of class I.2 occurred throughout the study and represented 80.5% (n = 1199) of all tadpoles; their highest abundance recorded during the rainy season (48.5%, n = 716) (fig. 2C) (ANOVA, R2 = 0.096; F1.34 = 4.705; P = 0.037). Tadpoles of class II were the second most abundant (14.2%, n = 212) and frequent (n = 30 months) in the permanent stream (fig. 2E). Their highest abundance was in the dry season (9.2%, n = 137, fig. 2E). We did not find statistical difference in the abundance of tadpoles of class II between seasons (Kruskal-Wallis; X2 = 0.004, P = 0.949). Tadpoles of class III (final stage of metamorphose) were the least abundant in the permanent stream with only 18 individuals (1.2%), more frequent in the rainy season (25%, n = 9 months, fig. 2G). We did not find significant difference in the number of tadpoles of class III between seasons (ANOVA, R2 = - 0.012, F1.34 = 0.569, P = 0.456).
+
+In the temporary stream, tadpoles of class I.1 were the second least abundant (13.7%, n = 27). They were more frequent (16.6%, n = 6 months) and abundant (11.2%, n = 22) in dry season months (fig. 2B). We found no statistical difference in abundance of class I.1 tadpoles between seasons (Kruskal-Wallis, X2 = 0.818, P = 0.365). Tadpoles of class I.2 were the most abundant (n = 123) and represented 62.4% of all tadpoles found in this habitat (fig. 2D). They were more frequent (36.1%, n = 13) and abundant in the dry season (38.6%, n = 76, fig. 2D). The number of class I.2 tadpoles did not differ statistically between seasons (ANOVA, R2 = 0.005, F1.34 = 1.183, P = 0.284). Tadpoles of class II were the second most abundant (19.8%, n = 39). They were more abundant (14.2%, n = 28) and found more frequently during the dry season (27.7%, n = 10, fig. 2F). We did not find statistical difference in the abundances of Class II tadpoles between seasons (Kruskal-Wallis, X2 = 1.837, P = 0.175). Tadpoles of class III (final stage of metamorphose) were the least abundant in stream 2 with only 8 individuals (4.1%, fig. 2H). These tadpoles occurred more frequently (8.3%, n = 3 months) and were more abundant in the dry season (3.5%, n = 7, fig. 2H). We did not find significant difference in the number of class III tadpoles between seasons (Kruskal-Wallis, X2 = 1.1524, P = 0.283). 
+
+Mean body length of tadpoles was larger in permanent stream, but only differed significantly between streams in tadpoles of development classes I.1 and I.2 (fig. 3). Mean body length of tadpoles of class I.1 (4.57 + 0.43 mm, range = 2.7-5.0 mm, n = 61) and class I.2 (8.87 + 2.29 mm, range = 5.1-15.9 mm, n = 1184) in permanent stream were larger than in temporary stream (I.1: 3.92 + 0.73 mm, range = 2.6-5.0 mm, n = 27; I.2: 8.34 + 2.05 mm, range = 5.1-16.6 mm, n = 121) (ANOVA-I.1, R2 = 0.227, F1.86 = 26.58, P < 0.001; ANOVA-I.2, R2 = 0.003, F1.1303 = 5.84, P = 0.015) (fig. 3). We found significant difference in body length of tadpoles neither in class II (ANOVA-II; R2 = 0.007, F1.249 = 2.82, P = 0.094) nor in class III (Kruskal-Wallis; X2 = 1.617, P = 0.203) between permanent (II: 12.04 + 2.09 mm, range = 6.4-16.5 mm, n = 209; III: 14.63 + 1.07, range = 13.0-17.5 mm, n = 18) and temporary streams (II: 11.43 + 2.47, range = 6.9-16.8 mm, n = 42; III: 13.95 + 2.3 mm, range = 11.9-17.6 mm, n = 7).
+
+# Discussion
+
+Knowledge about tadpole ecology is still limited for many species in tropical streams. Tadpoles complete their metamorphose cycle in habitats chosen by adults [@](Buxton and Sperry, 2017); these habitats can influence the entire development of individuals [@; @](Gomez-Mestre, Kulkarni and Buchholz, 2013; Cuello et al., 2014). The results revealed a clear difference in the ecology of two populations of Aplastodiscus eugenioi tadpoles living in permanent and temporary streams in the Atlantic Rainforest. Tadpoles of A. eugenioi were about seven times more numerous in the permanent stream when compared to the temporary stream. In addition, the abundance of tadpoles clearly tended to increase through time in the permanent stream, while their abundance tended to decline in the temporary stream. The structure of water bodies (e.g. water volume, presence/absence of water flow, water depth and the type of substrate) is an important factor driving species occurrence in tadpole communities [e.g. @; @; @](e.g. Eterovick and Barata, 2006; Almeida et al., 2015; Melo, Garey and Rossa-Feres, 2018). We found evidence that tadpoles of A. eugenioi tend to occur with greater abundance in permanent water bodies, so the structure of permanent stream should offer more suitable habitats to this hylid frog than that found in temporary ones. 
+
+The relationship between rain and the abundance of tadpoles of A. eugenioi differed between permanent and temporary streams. While in the permanent stream there was a positive relationship between abundance of tadpoles and mean rainfall, in the temporary stream this relationship was negative. We did not find tadpoles during or soon after heavy rains in temporary stream (e.g. February 2003, January and February 2004, see Figures 2 and 3). Rainfall seems to be an important factor regulating the dynamic of tadpole populations in streams in southeastern of Brazil [e.g. @ ...; @ ...](e.g. Fatorelli et al., 2010 investigating a Proceratophrys tupinamba at Ilha Grande; Almeida-Gomes et al., 2012 investigating Crossodactylus gaudichaudi, also at Ilha Grande). However, these previous studies did not compare different water bodies. We suggest that the interaction between rainfall and the structural differences of habitats may be determinant to the period when tadpoles of A. eugenioi are more numerous. 
+
+	We found a marked difference in the tadpole population size between streams. Adult anurans are highly selective on the breeding site choice [e.g. @](e.g Semeniuk, Lemckert and Shine, 2007) and the presence of tadpoles in aquatic habitat depends ultimately by this choice. Breeding site choice may be influenced by both biotic (e.g. predator, limiting resources) [@; @; @](Rieger, Binckley and Resetartis Jr., 2004; Bekhet et al., 2014; Buxton and Sperry, 2017) and abiotic features of the aquatic environment (e.g. hydroperiod, water chemistry, temperature) [e.g. @; @](e.g. Goldberg, Quinzio and Vaira, 2006; Catenazzi and Kupferberg, 2013). The streams differed consistently in terms of microhabitat availability and water depth. The permanent stream presented high proportions of silt and leaf litter microhabitats and was shallower than the temporary stream. Furthermore, there was no silt substrate in the temporary stream  during the study. Shallow microhabitats composed by silt and leaf litter substrate seems to be selected by tadpoles of A. eugenioi in both lentic and lotic environments [@](Melo, Garey and Rossa-Feres, 2018). We hypothesize that difference in population size of tadpoles may resulted from the marked distinction in habitat structures between streams with consequences to the dynamic of these two populations.
+	
+	 The age structure of tadpoles of A. eugenioi was similar between streams. The younger tadpoles (class I.1) were the second least representatives in both permanent and temporary habitats. The presence of small sized tadpoles and in early developmental stage has been used to characterize the reproductive activity of different species [e.g. @](e.g. Leite, Pacheco and Eterovick, 2008). Tadpoles of class I.2 (before metamorphose) were the most abundant in both streams throughout the study period. Previous studies [@; @](Almeida-Gomes et al., 2012; Fatorelli et al., 2015) have demonstrated that tadpoles in this development stage are the most representative in different stream-dwelling species. The proportion of class III tadpoles (metamorphs) was relatively low overall. This proportion was similar to that reported for tadpoles of an insular population of Crossodactylus gaudichaudii (4.8%) [@](Almeida-Gomes et al., 2012), but lower than that reported to tadpoles of Hylodes uai (17.5%) [@](Fatorelli et al., 2015). We suggest that reproductive activity of A. eugenioi is prolonged or even continuous [sensu @](sensu Wells, 1977) with an intensification of recruitment of new individuals to the aquatic habitat during the dry season. 
+	 
+We did not find seasonal differences in the abundance of tadpoles in different stages of development neither in permanent and temporary streams, except for tadpoles of class I.2 that were more abundant during the rainy season. Additionally, class I tadpoles were larger in body size in the permanent stream when compared to the temporary stream.  These results suggest increased growth rate in tadpoles of permanent stream during the rainy season and that A. eugenioi tadpoles can adjust their growth and developmental rates according to conditions of the water body. The duration of the larval habitat is a major determinant of size at metamorphosis in Amphibians. Species breeding in temporary habitats metamorphose at smaller size than species which breed in more permanent habitats [@; @](Gomez-Mestre, Kulkarni and Buchholz, 2013; Cuello et al., 2014). In temporary streams, as the likelihood of drying up is higher, individuals that  develop faster and metamorphose earlier to leave the aquatic habitat before it dries enhance the survival probability of metamorphs [@; @; @](Székely, Cogalniceanu and Tudor, 2010; Székely et al., 2017). Conversely, in habitats with more stable hydric conditions tadpoles may attain larger sizes before metamorphosing [@; @](Márquez-Garcia et al., 2009; Gomez-Mestre, Kulkarni and Buchholz, 2013) which may also improve their success when colonizing the terrestrial habitat [@; @](Cabrera-Guzmán et al., 2013; Tarvin et al., 2015). The difference we found in size of A. eugenioi between permanent and temporary stream before tadpoles start to metamorphose appears to be adaptive since it results in individuals becoming independent of water earlier.
+
+Herein, we provide information on population dynamics of Aplastodiscus eugenioi tadpoles. We conducted this study in two habitats with different hydric regimes and structure. The results provided evidence that permanent habitats are more suitable with a positive trend in population size and holding a larger number of individuals than temporary ones. Despite this difference, the age structure of tadpoles was similar in both habitats. The extensive presence of small sized tadpoles in early stages of development suggests that the species has a prolonged or continuous reproductive activity at the study site. Rainfall had only weak effect on tadpole abundance, positive in permanent and negative in temporary habitats. Finally, we also suggest that A. eugenioi tadpoles adjust their growth and developmental rates according to water level conditions of the habitat. 
+
+# References
+
+Almeida, A.P., Domingos, J.R., Garey, M.V., Menin, M. (2015): Tadpole richness in ripariam areas is determined by niche-based and neutral processes. Hydrobiologia 745: 123-135.
+
+Almeida-Gomes, M., Laia, R.C., Hatano, F.H., Van Sluys, M., Rocha, C.F.D. (2012): Population dynamics of tadpoles of Crossodactylus gaudichaudii (Anura: Hylodidae) in the Atlantic Rainforest of Ilha Grande, southeastern Brazil. J. Nat. Hist. 46: 43-44.
+
+Bekhet, A.B., Andou, H.A., Dekinesh, S.A., Hussein, H.A., Sebiae, S.S. (2014): Biological factors controlling developmental duration, growth and metamorphosis of the larval green toad, Bufo viridis viridis. J. Basic App. Zool. 67: 67-82.
+
+Borges Junior, V.N.T., Rocha, C.F.D. (2013): Tropical tadpole assemblages: which factors affect their structure and distribution? Oecol. Aust. 17: 217-228. 
+
+Burnham, K.P., Anderson, A.D.R. (2002): Model selection and multi-model inference: a practical information-theoretic approach. New York, Springer-Verlag Publisher.
+Buxton, V.L., Sperry, J.H. (2017): Reproductive decision in anurans: a review of how predation and competition affects the deposition of eggs and tadpoles. BioSci. 67: 26-38.
+
+Cabrera-Guzmán, E., Crossland, M.R., Brown, G.P., Shine, R. (2013): Larger Body Size at Metamorphosis Enhances Survival, Growth and Performance of Young Cane Toads (Rhinella marina). PLoS ONE 8: e70121. Available from: https://doi.org/10.1371/journal.pone.0070121
+
+Carvalho-e-Silva, A.M.P.T., Carvalho-e-Silva, S.P. (2005): New Species of the Hyla albofrenata Group, from the States of Rio de Janeiro and São Paulo, Brazil (Anura, Hylidae). J. Herpetol. 39: 73-81.
+
+Catenazzi, A. Kupferberg, S.J. (2013): The importance of thermal conditions to recreuitment success in stream-breeding frog populations distributed across a productivity gradient. Biol. Cons. 168: 40-48.
+
+Cuello, M.E., Úbeda, C.A., Bello, M.T., Perotti, M.G. (2014): Plastic patterns in larval development of Endangered endemic Atelognathus patagonicus: implications for conservation strategies. Endanger. Species Res. 23: 83-92.
+
+Eterovick, P.C., Barata, I.M. (2006): Distribution of tadpoles within and among Brazilian streams: the influence of predators, habitat size and heterogeneity. Herpetologica 62: 365-377.
+
+Fatorelli, P., Costa, P.N., Laia, R.C., Almeida-Santos, M., Van Sluys, M., Rocha, C.F.D. (2010): Description, microhabitat and temporal distribution of the tadpoles of Proceratophrys tupinamba Prado and Pombal, 2008. Zootaxa 2684: 57-62.
+
+Fatorelli, P., Pereira, E.G., Almeida-Gomes M., Rocha, C.F.D. (2015): Population Dynamics of Hylodes uai Tadpoles (Anura, Hylodidae) in a Tropical Forest Stream, Southeastern Brazil. J. Herpetol. 49: 23-27.
+
+Goldberg, F.J., Quinzio, S., Vaira, M. (2006): Oviposition-site selection by the toad Melanophryniscus rubiventris in an unpredictable environment in Argentina. Can. J. Zool. 84: 699-705.
+
+Gomez-Mestre I., Kulkarni, S., Buchholz, D.R. (2013): Mechanisms and consequences of developmental acceleration in tadpoles responding to pond drying. PLoS ONE 8: e84266. Available from: https://doi.org/10.1371/journal.pone.0084266
+
+Gosner, K.L. (1960): A simplified table for staging anuran embryos and larvae with notes on identification. Herpetologica 16: 183-190.
+
+Gotelli, N.J., Ellison, A.M. (2004): A Primer of Ecological Statistics. Sunderland, Sinauer Associates Publisher.
+
+Grafe, T.U., Kaminsky, S.K., Bitz, J.H., Lüssow, H., Linsenmair, K.E. (2004): Demographic dynamics of the afrotropical pig-nosed frog, Hemisus marmoratus: effects of climate and predation on survival and recruitment. Oecologia 141: 40-46.
+
+Hartmann, M.T., Hartmann P.A., Haddad, C.F.B. (2004): Visual signaling and reproductive biology in a nocturnal treefrog, genus Hyla (Anura: Hylidae). Amphibia-Reptilia 25: 395-406.
+
+Hellriegel, B. (2000): Single- or multistage regulation in complex life cycles: does it make a difference? Oikos 88: 239-249.
+
+Johnson, J.B., Omland, K.S. (2004): Model selection in ecology and evolution. Trends Ecol. Evol. 19: 101-8. 
+
+Kopp, K., Wachlevski, M., Eterovick, P.C. (2006): Environmental complexity reduces tadpole predation by water bugs. Can. J. Zool. 84: 136-140.
+
+Legendre, P. Legendre, L. (2012): Numerical Ecology. Oxford, Elsevier Publisher. 
+Leite, F.S.F., Pacheco, B.G., Eterovick, P.C. (2008): Development and demography of Phasmahyla jandaia (Bokermann and Sazima, 1978) (Anura: Hylidae) Tadpoles in an Atlantic Forest site, southeastern Brazil. J. Nat. Hist. 42: 2777-2791.
+
+Leskovar, C., Oromi, N., Sanuy, D., Sinsch, U. (2006): Demographic life history traits of reproductive natterjack toads (Bufo calamita) vary between northern and southern latitudes. Amphibia-Reptilia 27: 365-375.
+
+Márquez-Garcia, M., Correa-Solis, M., Sallaberry, M., Méndez, M.A. (2009): Effects of pond drying on morphological and life-history traits in the anuran Rhinella spinulosa (Anura: Bufonidae). Evol. Ecol. Res. 11: 803-815. 
+
+Melo, L.S.O., Garey, M.V., Rossa-Feres, D.C. (2018): Looking for a place: how are tadpoles distributed within tropical ponds and streams? Herpetol. Notes 11: 379-386.
+NUCLEN. (2006): Central Nuclear de Angra, Estação Metereológica, Angra dos Reis, Rio de Janeiro.
+
+R Core Team (2016): R: A language and environment for statistical computing. The R Foundation for Statistical Computing, Vienna, Austria. Version 3.2.4. Available from: https://www.R-project.org/.
+
+Rieger, J.F., Binckley, C.A., Resetartis Jr., W.J. (2004): Larval performance and oviposition site preferente along a predation gradient. Ecology 85: 2094-2099.
+Ribeiro, J., Rebelo, R. (2011): Survival of Alytes cisternasii tadpoles in stream pools: a capture-recapture study using photo-identification. Amphibia-Reptilia 32: 365-374.
+
+Schmidt, B.R., Feldman, R., Schaub, M. (2005): Demographic processes underlying population growth and decline in Salamandra salamandra. Cons. Biol. 19: 1149-1156.
+Semeniuk, M., Lemckert, F., Shine, R. (2007): Breeding-site selection by cane toads (Bufo mairnus) and native forest in northern New South Wales, Australia. Wildl. Res. 34: 59-66.
+
+Strauß, A., Randrianiaina, R.D., Vences, M., Glos, J. (2013): Species distribution and assembly patterns of frog larvae in rainforest streams of Madagascar. Hydrobiologia 702: 27-43. 
+
+Székely, D., Denoël, M., Székely, P., Cogalniceanu, D. (2017): Pond drying cues and their effects on growth and metamorphosis in a fast developing amphibian. J. Zool. 303: 129-135.
+
+Székely, P., Cogalniceanu, D., Tudor, M. (2010): Effect of habitat drying on the development of the Eastern spadefoot toad (Pelobates syriacus) tadpoles. Amphibia-Reptilia 31: 425-434.
+
+Travin, R.D., Bermúdez, C.S., Briggs, V.S., Warkentin, K.M. (2015): Carry-over efects of size at metamorphosis in red-eyed treefrogs: higher survival but slower growth of larger metamorphs. Biotropica 47: 218-226.
+
+Vonesh, J.R., De La Cruz, O. (2002): Complex life cycles and density dependence: assessing to amphibian declines. Oecologia 133: 325-333.
+
+Wells, K.D. (1977): The social behaviour of anuran amphibians. Anim. Behav. 25: 666-693.
+
+Zar, J.H. (1999): Biostatistical analysis. New Jersey, Prentice Hall Publisher.
+Zina, J., Haddad, C.F.B. (2007): Ecology and reproductive biology of two species of Aplastodicus (Anura: Hylidae) in the Atlantic Forest, Brazil. J. Nat. Hist. 40: 1831-1840.
+
+Zuur, A.F., Ieno, E.N., Walker, N.J., Saveliev, A.A., Smith, G.M. (2009): Mixed-Effects Models and Extensions in Ecology with R. New York, Springer Publisher.
+
+# Table Captions
+
+Table 1. Model selection of the effects of rainfall of actual and previous month on the abundance of tadpoles of A. eugenioi in one permanent and one temporary stream at the Atlantic Rainforest of Ilha Grande, Angra dos Reis, Rio de Janeiro, Brazil. AICc = Akaike’s Information Criterion adjusted for small sample size; Δi = the differences between AICc values of used to rank models; wi = Akaike weights represents the ‘probability that a model i is the best model for the observed data, given the candidate set of models’.
+
+Table 2. Number of tadpoles of Aplastodiscus eugenioi sampled in dry and rainy seasons in a permanent and in a temporary stream from April 2002 to March 2005 at the Atlantic Rainforest of Ilha Grande, Angra dos Reis, Rio de Janeiro, Brazil. Class of development are the following: Class I.1 - tadpoles without apparent limbs (up to stage 25) up to 5mm in body size; Class I.2 - tadpoles without apparent limbs (up to stage 25) larger than 5mm in body size; Class II - tadpoles with developing hind limbs and fore limbs not exposed (stages 26-41); and Class III - tadpoles with well-developed hind limbs and exposed fore limbs (stages 42-46).
+
+# Figure Legends
+
+Figure 1. Abundance of  Aplastodiscus eugenioi tadpoles in permanent stream (), temporary stream (), and rainfall () from April 2002 to March 2005 at the Atlantic Rainforest of Ilha Grande, Angra dos Reis, Rio de Janeiro. The straight black lines represent the trend of tadpole population abundance in permanent (positive trend) and temporary stream (negative trend)
+
+Figure 2. Number of tadpoles of Aplastodiscus eugenioi of each development class sampled in permanent (A, C, E and G) and temporary (B, D, F and H) stream from April 2002 to March 2005 at the Atlantic Rainforest of Ilha Grande, Angra dos Reis, Rio de Janeiro, Brazil. Class of development are the following: A and B: Class I.1 - tadpoles without apparent limbs (up to stage 25) up to 5mm in body size; C and D: Class I.2 - tadpoles without apparent limbs (up to stage 25) larger than 5mm in body size; E and F: Class II - tadpoles with developing hind limbs and fore limbs not exposed (stages 26-41); G and H: Class III - tadpoles with well-developed hind limbs and exposed fore limbs (stages 42-46)
+
+Figure 3. Body length (mm) of tadpoles of Aplastodiscus eugenioi in three developmental classes in the permanent stream (A) and the temporary stream (B) from April 2002 to March 2005, at the Atlantic Rainforest of Ilha Grande, Angra dos Reis, Rio de Janeiro, Brazil. Class of development are the following: Class I.1 - tadpoles without apparent limbs (up to stage 25) up to 5mm in body size; Class I.2 - tadpoles without apparent limbs (up to stage 25) larger than 5mm in body size; Class II - tadpoles with developing hind limbs and fore limbs not exposed (stages 26-41); and Class III - tadpoles with well-developed hind limbs and exposed fore limbs (stages 42-46)

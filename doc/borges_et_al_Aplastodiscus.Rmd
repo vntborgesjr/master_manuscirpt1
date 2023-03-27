@@ -1,0 +1,749 @@
+---
+title: "borges jr__et_al_Aplastodiscus"
+author: "Vitor Borges Jr"
+date: "11/07/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+bd.length <- read_excel("Workbook1.xlsx", col_names = TRUE, sheet = 1)
+abund <- read_excel("Workbook1.xlsx", col_names = TRUE, sheet = 2)
+permanente <- read_excel("Dados Brutos R1.xlsx", col_names = TRUE, sheet = 1)
+temporario <- read_excel("Dados Brutos R2.xlsx", col_names = TRUE, sheet = 1)
+bd.length$Months <- factor(bd.length$Months, levels = c("Apr-02", "May-02", "Jun-02", "Jul-02", "Aug-02", "Sep-02", "Oct-02", "Nov-02", "Dec-02", "Jan-03", "Feb-03", "Mar-03", "Apr-03", "May-03", "Jun-03", "Jul-03", "Aug-03", "Sep-03", "Oct-03", "Nov-03", "Dec-03", "Jan-04", "Feb-04", "Mar-04", "Apr-04", "May-04", "Jun-04", "Jul-04", "Aug-04", "Sep-04", "Oct-04", "Nov-04", "Dec-04", "Jan-05", "Feb-05", "Mar-05"), exclude = NA)
+bd.length$Class <- factor(bd.length$Class, levels = c("I.1", "I.2", "II", "III"))
+bd.length$Season <- factor(bd.length$Season, levels = c("dry", "rainy"))
+bd.length$Year <- factor(bd.length$Year, levels = c("1", "2", "3"))
+bd.length$Stream <- factor(bd.length$Stream, levels = c("1", "2"))
+abund$Months <- factor(abund$Months, levels = c("Apr-02", "May-02", "Jun-02", "Jul-02", "Aug-02", "Sep-02", "Oct-02", "Nov-02", "Dec-02", "Jan-03", "Feb-03", "Mar-03", "Apr-03", "May-03", "Jun-03", "Jul-03", "Aug-03", "Sep-03", "Oct-03", "Nov-03", "Dec-03", "Jan-04", "Feb-04", "Mar-04", "Apr-04", "May-04", "Jun-04", "Jul-04", "Aug-04", "Sep-04", "Oct-04", "Nov-04", "Dec-04", "Jan-05", "Feb-05", "Mar-05"), exclude = NA)
+abund$Class <- factor(abund$Class, levels = c("I.1", "I.2", "II", "III"))
+abund$Season <- factor(abund$Season, levels = c("dry", "rainy"))
+abund$Year <- factor(abund$Year, levels = c("1", "2", "3"))
+abund$Stream <- factor(abund$Stream, levels = c("1", "2"))
+abund$ind.abund <- abund$Abundance/30
+
+permanente$`Profundidade (cm)` <- as.double(permanente$`Profundidade (cm)`)
+permanente$`Temperatura (°C)` <- as.double(permanente$`Temperatura (°C)`)
+permanente$Intervalo <- as.factor((permanente$Intervalo))
+
+temporario$`Profundidade (cm)` <- as.double(temporario$`Profundidade (cm)`)
+temporario$`Temperatura (°C)` <- as.double(temporario$`Temperatura (°C)`)
+
+temporario$Intervalo <- as.factor((temporario$Intervalo))
+```
+
+## objetivos
+
+## i) did abundance of tadpoles differ between streams?
+
+We captured and measured 1687 tadpoles o __A. eugenioi__ in the two streams sampled. Tadpoles of A. eugenioi occurred in stream 1 during all 36 months of the study. In stream 2, tadpoles were found in 26 months and were more frequntly found in the dry season. The abundance of tadpoles in streams were heterocedastic and not normal, as it is visualized in boxplot and histogram. The analyses of the residuals of ANOVA indicated that the premisses of  normality and homocedasticity were not met, so we use Kruskal-Wallis rank sum test (non-parametric ANOVA). Resutls indicated that the abundance of tadpoles difered significantly between streams.
+
+```{r , echo = FALSE, eval = TRUE}
+# total number of tadpoles
+total <- sum(abund$Abundance)
+
+# total number of tadpoles per season in each stream
+total.stream.season <- tapply(abund$Abundance, list(abund$Stream, abund$Season), sum)
+
+# Frequence of occurrence of tadpoles of each stream during the studied period
+freq1 <- aggregate(abund$Count, list(abund$Months, abund$Season, abund$Stream), sum)
+freq1$x <- ifelse(freq1$x >= 1, 1, 0)
+freq.total1 <- aggregate(freq1$x, list(freq1$Group.3), sum)
+names(freq.total1) <- c("Class", "Total")
+freq.total1
+
+# Frequence of occurrence of tadpoles of each stream between seasons during the studied period
+tapply(freq1$x, list(freq1$Group.2, freq1$Group.3), sum)
+total.stream <- tapply(abund$Abundance, list(abund$Stream), sum)
+
+# Difference in abundance of tadpoles between streams
+boxplot(abund$Abundance ~ abund$Stream, ylab = "Number of tadpoles")
+hist(abund$Abundance[abund$Stream == "1"], main = "Stream 1", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Stream == "2"], main = "Stream 2", xlab = "Classes of abundances")
+summary(aov(formula = Abundance ~ Stream, data = abund))
+plot(aov(formula = Abundance ~ Stream, data = abund), main = "Total")
+kruskal.test(Abundance ~ Stream, data = abund)
+
+
+```
+
+ 
+
+## ii) did tadpoles of different class of development tend to occur *more frequently* and to be more abundant in the rainy or in the dry season?
+
+Tadpoles of class I.2 were the most frequent being registered all months, followed by tadpoles of class II, I.1, and III. Except for tadpoles of class I.1 that was more frequent in the dry period, tadpoles of all other classes were more frequent in the rainy period.
+
+```{r, eval = TRUE, echo = FALSE}
+# Frequence of occurrence of tadpoles of each class of development during the studied period
+freq <- aggregate(abund$Count, list(abund$Class, abund$Months, abund$Season), sum)
+freq$x <- ifelse(freq$x >= 1, 1, 0)
+freq.total <- aggregate(freq$x, list(freq$Group.1), sum)
+names(freq.total) <- c("Class", "Total")
+freq.total
+
+# Frequence of occurrence of tadpoles of each class of development between seasons during the studied period
+tapply(freq$x, list(freq$Group.1, freq$Group.3), sum)
+
+```
+
+## ii) did tadpoles of different class of development tend to occur more frequently and to be *more abundant* in the rainy or in the dry season (absolute and index of abundance, and mean abundance)?
+
+We captured and measured 1687 tadpoles o __A. eugenioi__. The most common tadpoles belonged to class I.2 and the rarer to class III. Tadpoles of all development class were more abundant in the dry period both in absolute values, by the index and the mean. The exception were tadpoles of class I.2 that were more comomn in the rainy season.
+
+```{r , echo = FALSE, eval = TRUE}
+total <- sum(rowSums(tapply(abund$Abundance, list(abund$Class, abund$Season), sum)))
+
+# total number of tadpoles in each class o development
+rowSums(tapply(abund$Abundance, list(abund$Class, abund$Season), sum))
+
+# total abundance of tadpoles of __A. eugenioi__ of different calsses of development and seasons
+tapply(abund$Abundance, list(abund$Class, abund$Season), sum)
+
+abund1 <- aggregate(as.vector(abund$Abundance), list(abund$Class, abund$Season, abund$Months), sum)
+names(abund1) <- c("Class", "Season", "Month", "Abundance")
+
+tapply(abund$ind.abund, list(abund$Class, abund$Season), sum)
+abund.ind <- aggregate(as.vector(abund$ind.abund), list(abund$Class, abund$Season, abund$Months), sum)
+names(abund.ind) <- c("Class", "Season", "Month", "Abundance")
+
+# mean abundance of tadpoles of __A. eugenioi__ of different calsses of development and seasons
+tapply(abund$Abundance, list(abund$Class, abund$Season), mean)
+
+abund.mean <- aggregate(as.vector(abund$Abundance), list(abund$Class, abund$Season, abund$Months), mean)
+names(abund.mean) <- c("Class", "Season", "Month", "Mean")
+
+abund.ind <- aggregate(as.vector(abund$ind.abund), list(abund$Class, abund$Season, abund$Months), sum)
+names(abund.ind) <- c("Class", "Season", "Month", "Abundance")
+
+```
+
+## ii) did tadpoles of different class of development tend to occur more frequently and to be *more abundant* in the rainy or in the dry season? ANOVA of the abundance of *all tadpoles* between seasons
+
+Both absolut abundances, the index, and mean abundance showed evidences of heterocedasticity and lack of normality bewteen seasons, as it is visualized in boxplot and histogram. The results of ANOVA indicated no differences in abudances between seasons. The analyses of residuals indicated that the premisses of  normality and homocedasticity were not met.
+
+
+```{r, eval = TRUE, echo = FALSE}
+
+# total number of tadpoles
+boxplot(abund1$Abundance ~ abund1$Season, ylab = "Number of tadpoles")
+hist(abund1[abund1$Season == "dry", "Abundance"], main = "Total - dry", xlab = "Classes of abundances")
+hist(abund1[abund1$Season == "rainy", "Abundance"], main = "Total - rainy", xlab = "Classes of abundances")
+summary(aov(formula = Abundance ~ Season, data = abund1))
+plot(aov(formula = Abundance ~ Season, data = abund1), main = "Total")
+
+# index of abundance
+boxplot(abund.ind$Abundance ~ abund.ind$Season, ylab = "Number of tadpoles", main = "Total")
+hist(abund.ind[abund.ind$Season == "dry", "Abundance"], main = "Total - dry", xlab = "Classes of abundances")
+hist(abund.ind[abund.ind$Season == "rainy", "Abundance"], main = "Total - rainy", xlab = "Classes of abundances")
+summary(aov(formula = Abundance ~ Season, data = abund.ind))
+plot(aov(formula = Abundance ~ Season, data = abund.ind), main = "Total")
+
+# mean abundance
+boxplot(abund.mean$Mean ~ abund.mean$Season, ylab = "Mean abundance", main = "Total")
+hist(abund.mean[abund.mean$Season == "dry", "Mean"], main = "Total - dry", xlab = "Classes of abundances")
+hist(abund.mean[abund.mean$Season == "rainy", "Mean"], main = "Total - rainy", xlab = "Classes of abundances")
+summary(aov(formula = Mean ~ Season, data = abund.mean))
+plot(aov(formula = Mean ~ Season, data = abund.mean), main = "Total")
+
+
+```
+## ii) did tadpoles of different class of development tend to occur more frequently and to be *more abundant* in the rainy or in the dry season? ANOVA of the abundance of tadpoles of *Class I.1* between seasons
+
+The boxplot sugests the presence of outliers and heterocedasticity. The histogram indicates lack of normality as expected for counts. The test of ANOVA indicate no difference in abundances between seasons. However, plots of the residuals indicated that the premisses of normality and homocedasticity were not matched. Resutls were consistent for both absolute, the index of abundance, and mean abundance.
+
+```{r, eval = TRUE, echo = FALSE}
+
+# total number of tadpoles
+boxplot(abund1$Abundance[abund1$Class == "I.1"] ~ abund1$Season[abund1$Class == "I.1"], ylab = "Number of tadpoles", main = "Class I.1")
+hist(abund1[abund1$Season == "dry" & abund1$Class == "I.1", "Abundance"], main = "Class I.1 - dry", xlab = "Classes of abundances")
+hist(abund1[abund1$Season == "rainy" & abund1$Class == "I.1", "Abundance"], main = "Class I.1 - rainy", xlab = "Classes of abundances")
+summary(aov(formula = abund1$Abundance[abund1$Class == "I.1"] ~ abund1$Season[abund1$Class == "I.1"]))
+plot(aov(formula = abund1$Abundance[abund1$Class == "I.1"] ~ abund1$Season[abund1$Class == "I.1"]), main = "Class I.1")
+kruskal.test(abund1$Abundance[abund1$Class == "I.1"] ~ abund1$Season[abund1$Class == "I.1"])
+
+# index of abundance
+boxplot(abund.ind$Abundance[abund.ind$Class == "I.1"] ~ abund.ind$Season[abund.ind$Class == "I.1"], ylab = "Number of tadpoles", main = "Class I.1")
+hist(abund.ind[abund.ind$Season == "dry" & abund.ind$Class == "I.1", "Abundance"], main = "Class I.1 - dry", xlab = "Classes of abundances")
+hist(abund.ind[abund.ind$Season == "rainy" & abund.ind$Class == "I.1", "Abundance"], main = "Class I.1 - rainy", xlab = "Classes of abundances")
+plot(aov(formula = Abundance ~ Season, data = abund.ind), main = "Class I.1")
+kruskal.test(abund.ind$Abundance[abund.ind$Class == "I.1"] ~ abund.ind$Season[abund.ind$Class == "I.1"])
+
+
+# mean abundance
+boxplot(abund.mean$Mean[abund.mean$Class == "I.1"] ~ abund.mean$Season[abund.mean$Class == "I.1"], ylab = "Mean of tadpoles", main = "Class I.1")
+hist(abund.mean[abund.mean$Season == "dry" & abund.mean$Class == "I.1", "Mean"], main = "Class I.1 - dry", xlab = "Classes of abundances")
+hist(abund.mean[abund.mean$Season == "rainy" & abund.mean$Class == "I.1", "Mean"], main = "Class I.1 - rainy", xlab = "Classes of abundances")
+summary(aov(formula = abund.mean$Mean[abund.mean$Class == "I.1"] ~ abund.mean$Season[abund.mean$Class == "I.1"]))
+plot(aov(formula = abund.mean$Mean[abund.mean$Class == "I.1"] ~ abund.mean$Season[abund.mean$Class == "I.1"]), main = "Class I.1")
+kruskal.test(abund.mean$Mean[abund.mean$Class == "I.1"] ~ abund.mean$Season[abund.mean$Class == "I.1"])
+
+```
+
+## ii) did tadpoles of  different class of development tend to occur more frequently and to be *more abundant* in the rainy or in the dry season? ANOVA of the abundance of tadpoles of *Class I.2* between seasons
+
+The boxplot sugests the presence of heterocedasticity. The histogram indicates lack of normality as expected for counts. The test of ANOVA indicate no difference in abundances between seasons. The plots of the residuals indicated that the premisses of normality and homocedasticity were not matched. Resutls were consistent for both absolute, the index of abundance, and mean abundance.
+
+```{r, eval = TRUE, echo = FALSE}
+
+# total number of tadpoles
+boxplot(abund1$Abundance[abund1$Class == "I.2"] ~ abund1$Season[abund1$Class == "I.2"], ylab = "Number of tadpoles", main = "Class I.2")
+hist(abund1[abund1$Season == "dry" & abund1$Class == "I.2", "Abundance"], main = "Class I.2 - dry", xlab = "Classes of abundances")
+hist(abund1[abund1$Season == "rainy" & abund1$Class == "I.2", "Abundance"], main = "Class I.2 - rainy", xlab = "Classes of abundances")
+summary(aov(formula = abund1$Abundance[abund1$Class == "I.2"] ~ abund1$Season[abund1$Class == "I.2"]))
+plot(aov(formula = abund1$Abundance[abund1$Class == "I.2"] ~ abund1$Season[abund1$Class == "I.2"]), main = "Class I.2")
+kruskal.test(formula = abund1$Abundance[abund1$Class == "I.2"] ~ abund1$Season[abund1$Class == "I.2"])
+
+# index of abundance
+boxplot(abund.ind$Abundance[abund.ind$Class == "I.2"] ~ abund.ind$Season[abund.ind$Class == "I.2"], ylab = "Number of tadpoles", main = "Class I.2")
+hist(abund.ind[abund.ind$Season == "dry" & abund.ind$Class == "I.2", "Abundance"], main = "Class I.2 - dry", xlab = "Classes of abundances")
+hist(abund.ind[abund.ind$Season == "rainy" & abund.ind$Class == "I.2", "Abundance"], main = "Class I.2 - rainy", xlab = "Classes of abundances")
+summary(aov(formula = abund.ind$Abundance[abund.ind$Class == "I.2"] ~ abund.ind$Season[abund.ind$Class == "I.2"], data = abund.ind))
+plot(aov(formula = abund.ind$Abundance[abund.ind$Class == "I.2"] ~ abund.ind$Season[abund.ind$Class == "I.2"], data = abund.ind), main = "Class I.2")
+kruskal.test(formula = abund.ind$Abundance[abund.ind$Class == "I.2"] ~ abund.ind$Season[abund.ind$Class == "I.2"])
+
+
+# mean abundance
+boxplot(abund.mean$Mean[abund.mean$Class == "I.2"] ~ abund.mean$Season[abund.mean$Class == "I.2"], ylab = "Mean of tadpoles", main = "Class I.2")
+hist(abund.mean[abund.mean$Season == "dry" & abund.mean$Class == "I.2", "Mean"], main = "Class I.2 - dry", xlab = "Classes of abundances")
+hist(abund.mean[abund.mean$Season == "rainy" & abund.mean$Class == "I.2", "Mean"], main = "Class I.2 - rainy", xlab = "Classes of abundances")
+summary(aov(formula = abund.mean$Mean[abund.mean$Class == "I.2"] ~ abund.mean$Season[abund.mean$Class == "I.2"]))
+plot(aov(formula = abund.mean$Mean[abund.mean$Class == "I.2"] ~ abund.mean$Season[abund.mean$Class == "I.2"]), main = "Class I.1")
+kruskal.test(formula = abund.mean$Mean[abund.mean$Class == "I.2"] ~ abund.mean$Season[abund.mean$Class == "I.2"])
+
+```
+
+## ii) did tadpoles of  different class of development tend to occur more frequently and to be *more abundant* in the rainy or in the dry season? ANOVA of the abundance of tadpoles of *Class II* between seasons
+
+The boxplot sugests the presence of outliers and heterocedasticity. The histogram indicates lack of normality as expected for counts. The test of ANOVA indicate no difference in abundances between seasons. The plots of the residuals indicated that the premisses of normality and homocedasticity were not matched. Resutls were consistent for both absolute, the index of abundance, and mean abundance.
+
+
+```{r, eval = TRUE, echo = FALSE}
+
+# total number of tadpoles
+boxplot(abund1$Abundance[abund1$Class == "II"] ~ abund1$Season[abund1$Class == "II"], ylab = "Number of tadpoles", main = "Class II")
+hist(abund1[abund1$Season == "dry" & abund1$Class == "II", "Abundance"], main = "Class II - dry", xlab = "Classes of abundances")
+hist(abund1[abund1$Season == "rainy" & abund1$Class == "II", "Abundance"], main = "Class II - rainy", xlab = "Classes of abundances")
+summary(aov(formula = abund1$Abundance[abund1$Class == "II"] ~ abund1$Season[abund1$Class == "II"]))
+plot(aov(formula = abund1$Abundance[abund1$Class == "II"] ~ abund1$Season[abund1$Class == "II"]), main = "Class II")
+kruskal.test(abund1$Abundance[abund1$Class == "II"] ~ abund1$Season[abund1$Class == "II"])
+
+# index of abundance
+boxplot(abund.ind$Abundance[abund.ind$Class == "II"] ~ abund.ind$Season[abund.ind$Class == "II"], ylab = "Number of tadpoles", main = "Class II")
+hist(abund.ind[abund.ind$Season == "dry" & abund.ind$Class == "II", "Abundance"], main = "Class II - dry", xlab = "Classes of abundances")
+hist(abund.ind[abund.ind$Season == "rainy" & abund.ind$Class == "II", "Abundance"], main = "Class II - rainy", xlab = "Classes of abundances")
+summary(aov(abund.ind$Abundance[abund.ind$Class == "II"] ~ abund.ind$Season[abund.ind$Class == "II"]))
+plot(aov(abund.ind$Abundance[abund.ind$Class == "II"] ~ abund.ind$Season[abund.ind$Class == "II"]), main = "Class II")
+kruskal.test(abund.ind$Abundance[abund.ind$Class == "II"] ~ abund.ind$Season[abund.ind$Class == "II"])
+
+# mean abundance
+boxplot(abund.mean$Mean[abund.mean$Class == "II"] ~ abund.mean$Season[abund.mean$Class == "II"], ylab = "Mean of tadpoles", main = "Class II")
+hist(abund.mean[abund.mean$Season == "dry" & abund.mean$Class == "II", "Mean"], main = "Class II - dry", xlab = "Classes of abundances")
+hist(abund.mean[abund.mean$Season == "rainy" & abund.mean$Class == "II", "Mean"], main = "Class II - rainy", xlab = "Classes of abundances")
+summary(aov(formula = abund.mean$Mean[abund.mean$Class == "II"] ~ abund.mean$Season[abund.mean$Class == "II"]))
+plot(aov(formula = abund.mean$Mean[abund.mean$Class == "II"] ~ abund.mean$Season[abund.mean$Class == "II"]), main = "Class II")
+kruskal.test(abund.mean$Mean[abund.mean$Class == "II"] ~ abund.mean$Season[abund.mean$Class == "II"])
+
+```
+
+## ii) did tadpoles of  different class of development tend to occur more frequently and to be *more abundant* in the rainy or in the dry season? ANOVA of the abundance of tadpoles of *Class III* between seasons
+
+The boxplot sugests the presence of outliers and heterocedasticity. The histogram indicates lack of normality as expected for counts. The test of ANOVA indicate no difference in abundances between seasons. The plots of the residuals indicated that the premisses of normality and homocedasticity were not matched. Resutls were consistent for both absolute, the index of abundance, and mean abundance.
+
+
+```{r, eval = TRUE, echo = FALSE}
+
+# total number of tadpoles
+boxplot(abund1$Abundance[abund1$Class == "III"] ~ abund1$Season[abund1$Class == "III"], ylab = "Number of tadpoles", main = "Class III")
+hist(abund1[abund1$Season == "dry" & abund1$Class == "III", "Abundance"], main = "Class III - dry", xlab = "Classes of abundances")
+hist(abund1[abund1$Season == "rainy" & abund1$Class == "III", "Abundance"], main = "Class III - rainy", xlab = "Classes of abundances")
+summary(aov(formula = abund1$Abundance[abund1$Class == "III"] ~ abund1$Season[abund1$Class == "III"]))
+plot(aov(formula = abund1$Abundance[abund1$Class == "III"] ~ abund1$Season[abund1$Class == "III"]), main = "Class III")
+kruskal.test(abund1$Abundance[abund1$Class == "III"] ~ abund1$Season[abund1$Class == "III"])
+
+# index of abundance
+boxplot(abund.ind$Abundance[abund.ind$Class == "III"] ~ abund.ind$Season[abund.ind$Class == "III"], ylab = "Number of tadpoles", main = "Class III")
+hist(abund.ind[abund.ind$Season == "dry" & abund.ind$Class == "III", "Abundance"], main = "Class III - dry", xlab = "Classes of abundances")
+hist(abund.ind[abund.ind$Season == "rainy" & abund.ind$Class == "III", "Abundance"], main = "Class III - rainy", xlab = "Classes of abundances")
+summary(aov(abund.ind$Abundance[abund.ind$Class == "III"] ~ abund.ind$Season[abund.ind$Class == "III"]))
+plot(aov(abund.ind$Abundance[abund.ind$Class == "III"] ~ abund.ind$Season[abund.ind$Class == "III"]), main = "Class III")
+kruskal.test(abund.ind$Abundance[abund.ind$Class == "III"] ~ abund.ind$Season[abund.ind$Class == "III"])
+
+# mean abundance
+boxplot(abund.mean$Mean[abund.mean$Class == "III"] ~ abund.mean$Season[abund.mean$Class == "III"], ylab = "Mean of tadpoles", main = "Class III")
+hist(abund.mean[abund.mean$Season == "dry" & abund.mean$Class == "III", "Mean"], main = "Class III - dry", xlab = "Classes of abundances")
+hist(abund.mean[abund.mean$Season == "rainy" & abund.mean$Class == "III", "Mean"], main = "Class III - rainy", xlab = "Classes of abundances")
+summary(aov(formula = abund.mean$Mean[abund.mean$Class == "III"] ~ abund.mean$Season[abund.mean$Class == "III"]))
+plot(aov(formula = abund.mean$Mean[abund.mean$Class == "III"] ~ abund.mean$Season[abund.mean$Class == "III"]), main = "Class III")
+kruskal.test(abund.mean$Mean[abund.mean$Class == "III"] ~ abund.mean$Season[abund.mean$Class == "III"])
+
+```
+## ii) did tadpoles of different class of development *from each stream* tend to occur *more frequently* and to be *more abundant* in the rainy or in the dry season? ANOVA of the abundance of tadpoles of *different classes* between seasons in stream 1
+
+In stream 1, tadpoles of class I.1 were the second least abundant (4.1%, n = 61). They were more frequent (30.5%, n = 11 months) and abundant (2.5%, n = 38) in the dry period. We found no statistical differences in abundances of tadpoles of class I.1 between seasons (F2.34 = 1.146, p = 0.292). Tadpoles of class I.2 occurred in all months and were the most abundant, representing 80.5% (n = 1199) of all tadpoles found in stream 1. We registered their highest abundance in the rainy season (48.5%, n = 716). Tadpoles of class I.2 were statisticaly more abundant in the rainy period (F2.34 = 4.705, p = 0.037). Tadpoles of class II the second most abundant (14.2%, n = 212) and frequent (n = 30 months). They were found more frequently during the rainy season (47.2%, n = 17), but we registered their highest abundance in the dry season (9.2%, n = 137). We did not find statistical differences in the abundances of tadpoles of class II between seasons (X2 = 0.004, p = 0.949). Tadpoles of class III (final stage of metamorphose) were the least abundant in stream 1 with only 18 individuals (1.2%) and occurred more frequnetly in the rainy season (25%, n = 9 months). We did not find significant difference in the number of tadpoles of class III between seasons (F2. = 0.569, p = 0.456).
+
+```{r, eval = TRUE, echo = FALSE}
+# Frequence of occurrence of tadpoles of each class of development between seasons during the studied period in the streams
+freq.stream <- aggregate(abund$Count, list(abund$Class, abund$Months, abund$Season, abund$Stream), sum)
+
+(freq.total.stream.abs <- tapply(freq.stream$x, list(freq.stream$Group.1, freq.stream$Group.3, freq.stream$Group.4), sum))
+
+(freq.total.stream.rel <- tapply(freq.stream$x, list(freq.stream$Group.1, freq.stream$Group.3, freq.stream$Group.4), sum)/36)
+
+
+# total abundance of tadpoles of __A. eugenioi__ of different classes of development in each stream
+(abund.total.stream.abs <- tapply(abund$Abundance, list(abund$Class, abund$Stream), sum))
+
+(abund.total.stream1.rel <- tapply(abund$Abundance, list(abund$Class, abund$Stream), sum)/1490)
+
+(abund.total.stream2.rel <- tapply(abund$Abundance, list(abund$Class, abund$Stream), sum)/197)
+
+# total abundance of tadpoles of __A. eugenioi__ of different classes of development between seasons in each stream
+(abund.season.stream.abs <- tapply(abund$Abundance, list(abund$Class, abund$Season, abund$Stream), sum))
+
+(abund.season.stream.rel <- tapply(abund$Abundance, list(abund$Class, abund$Season, abund$Stream), sum)/1490)
+
+# test between seasons - stream 1 - class I.1
+boxplot(abund$Abundance[abund$Class == "I.1" & abund$Stream == 1] ~ abund$Season[abund$Class == "I.1"& abund$Stream == 1], ylab = "Number of tadpoles", main = "Class I.1")
+hist(abund$Abundance[abund$Class == "I.1" & abund$Stream == 1], main = "Stream 1 - Class I.1", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "dry" & abund$Class == "I.1" & abund$Stream == 1], main = "Stream 1 - Class I.1 - dry", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "rainy" & abund$Class == "I.1" & abund$Stream == 1], main = "Stream - Class I.1 - rainy", xlab = "Classes of abundances")
+
+summary(aov(formula = abund$Abundance[abund$Class == "I.1" & abund$Stream == 1] ~ abund$Season[abund$Class == "I.1" & abund$Stream == 1]))
+plot(aov(formula = abund$Abundance[abund$Class == "I.1"  & abund$Stream == 1] ~ abund$Season[abund$Class == "I.1" & abund$Stream == 1]), main = "Stream 1 - Class I.1")
+kruskal.test(abund$Abundance[abund$Class == "I.1" & abund$Stream == 1] ~ abund$Season[abund$Class == "I.1" & abund$Stream == 1])
+
+# glm - probabilidade de ocupação entre estações I.1
+summary(glm(formula = freq.stream$x[freq.stream$Group.1 == "I.1" & freq.stream$Group.4 == 1] ~ freq.stream$Group.3[freq.stream$Group.1 == "I.1" & freq.stream$Group.4 == 1], family = "binomial"))
+
+summary(glm(formula = freq.stream$x[freq.stream$Group.4 == 1] ~ freq.stream$Group.3[freq.stream$Group.4 == 1] * freq.stream$Group.1[freq.stream$Group.4 == 1],, family = "binomial"))
+
+# glm - probabilidade de ocupação entre estações I.2
+summary(glm(formula = freq.stream$x[freq.stream$Group.1 == "I.2" & freq.stream$Group.4 == 1] ~ freq.stream$Group.3[freq.stream$Group.1 == "I.2" & freq.stream$Group.4 == 1], family = "binomial"))
+
+# glm - probabilidade de ocupação entre estações II
+summary(glm(formula = freq.stream$x[freq.stream$Group.1 == "II" & freq.stream$Group.4 == 1] ~ freq.stream$Group.3[freq.stream$Group.1 == "II" & freq.stream$Group.4 == 1], family = "binomial"))
+
+# glm - probabilidade de ocupação entre estações III
+summary(glm(formula = freq.stream$x[freq.stream$Group.1 == "III" & freq.stream$Group.4 == 1] ~ freq.stream$Group.3[freq.stream$Group.1 == "III" & freq.stream$Group.4 == 1], family = "binomial"))
+
+# test between seasons - stream 1 - class I.2
+boxplot(abund$Abundance[abund$Class == "I.2" & abund$Stream == 1] ~ abund$Season[abund$Class == "I.2"& abund$Stream == 1], ylab = "Number of tadpoles", main = "Class I.2")
+hist(abund$Abundance[abund$Class == "I.2" & abund$Stream == 1], main = "Stream 1 - Class I.2", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "dry" & abund$Class == "I.2" & abund$Stream == 1], main = "Stream 1 - Class I.2 - dry", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "rainy" & abund$Class == "I.2" & abund$Stream == 1], main = "Stream - Class I.2 - rainy", xlab = "Classes of abundances")
+
+summary(aov(formula = abund$Abundance[abund$Class == "I.2" & abund$Stream == 1] ~ abund$Season[abund$Class == "I.2" & abund$Stream == 1]))
+plot(aov(formula = abund$Abundance[abund$Class == "I.2"  & abund$Stream == 1] ~ abund$Season[abund$Class == "I.2" & abund$Stream == 1]), main = "Stream 1 - Class I.2")
+kruskal.test(abund$Abundance[abund$Class == "I.2" & abund$Stream == 1] ~ abund$Season[abund$Class == "I.2" & abund$Stream == 1])
+
+# test between seasons - stream 1 - class II
+boxplot(abund$Abundance[abund$Class == "II" & abund$Stream == 1] ~ abund$Season[abund$Class == "II" & abund$Stream == 1], ylab = "Number of tadpoles", main = "Class II")
+hist(abund$Abundance[abund$Class == "II" & abund$Stream == 1], main = "Stream 1 - Class II", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "dry" & abund$Class == "II" & abund$Stream == 1], main = "Stream 1 - Class II - dry", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "rainy" & abund$Class == "II" & abund$Stream == 1], main = "Stream - Class II - rainy", xlab = "Classes of abundances")
+
+summary(aov(formula = abund$Abundance[abund$Class == "II" & abund$Stream == 1] ~ abund$Season[abund$Class == "II" & abund$Stream == 1]))
+plot(aov(formula = abund$Abundance[abund$Class == "II"  & abund$Stream == 1] ~ abund$Season[abund$Class == "II" & abund$Stream == 1]), main = "Stream 1 - Class II")
+kruskal.test(abund$Abundance[abund$Class == "II" & abund$Stream == 1] ~ abund$Season[abund$Class == "II" & abund$Stream == 1])
+
+# test between seasons - stream 1 - class III
+boxplot(abund$Abundance[abund$Class == "III" & abund$Stream == 1] ~ abund$Season[abund$Class == "III" & abund$Stream == 1], ylab = "Number of tadpoles", main = "Class III")
+hist(abund$Abundance[abund$Class == "III" & abund$Stream == 1], main = "Stream 1 - Class III", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "dry" & abund$Class == "III" & abund$Stream == 1], main = "Stream 1 - Class III - dry", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "rainy" & abund$Class == "III" & abund$Stream == 1], main = "Stream - Class III - rainy", xlab = "Classes of abundances")
+
+summary(aov(formula = abund$Abundance[abund$Class == "III" & abund$Stream == 1] ~ abund$Season[abund$Class == "III" & abund$Stream == 1]))
+plot(aov(formula = abund$Abundance[abund$Class == "III"  & abund$Stream == 1] ~ abund$Season[abund$Class == "III" & abund$Stream == 1]), main = "Stream 1 - Class III")
+kruskal.test(abund$Abundance[abund$Class == "III" & abund$Stream == 1] ~ abund$Season[abund$Class == "III" & abund$Stream == 1])
+
+```
+
+## ii) did tadpoles of different class of development *from each stream* tend to occur *more frequently* and to be *more abundant* in the rainy or in the dry season? ANOVA of the abundance of tadpoles of *different classes* between seasons in stream 2
+
+In stream 2, tadpoles of class I.1 were the second least abundant (13.7%, n = 27). They were more frequent (16.6%, n = 6 months) and abundant (11.2%, n = 22) in the dry period. We found no statistical differences in abundances of tadpoles of class I.1 between seasons (X2 = 0.818, p = 0.365). Tadpoles of class I.2 occurred were the most abundant, representing 62.4% (n = 123) of all tadpoles found in stream 2. They were more frequent (36.1%, n = 13) and abundant in the dry season (38.6%, n = 76). Tadpoles of class I.2 did not differ statisticaly between seasons (F2.34 = 1.183, R2 = 0.005, p = 0.284). Tadpoles of class II the second most abundant (19.8%, n = 39). They were more abundant (14.2%, n = 28) and found more frequently during the dry season (27.7%, n = 10). We did not find statistical differences in the abundances of tadpoles of class II between seasons (X2 = 1.837, p = 0.175). Tadpoles of class III (final stage of metamorphose) were the least abundant in stream 2 with only 8 individuals (4.1%) and occurred more frequnetly in the dry season (8.3%, n = 3 months) when they were also more abundant (3.5%, n = 7). We did not find significant difference in the number of tadpoles of class III between seasons (X2 = 1.1524, p = 0.283).
+
+```{r, eval = TRUE, echo = FALSE}
+# Frequence of occurrence of tadpoles of each class of development between seasons during the studied period in the streams
+freq.stream <- aggregate(abund$Count, list(abund$Class, abund$Months, abund$Season, abund$Stream), sum)
+
+(freq.total.stream.abs <- tapply(freq.stream$x, list(freq.stream$Group.1, freq.stream$Group.3, freq.stream$Group.4), sum))
+
+(freq.total.stream.rel <- tapply(freq.stream$x, list(freq.stream$Group.1, freq.stream$Group.3, freq.stream$Group.4), sum)/36)
+
+
+# total abundance of tadpoles of __A. eugenioi__ of different classes of development in each stream
+(abund.total.stream.season <- tapply(abund$Abundance, list(abund$Stream, abund$Season), sum))
+
+(abund.total.stream.abs <- tapply(abund$Abundance, list(abund$Class, abund$Stream), sum))
+
+(abund.total.stream1.rel <- tapply(abund$Abundance, list(abund$Class, abund$Stream), sum)/1490)
+
+(abund.total.stream2.rel <- tapply(abund$Abundance, list(abund$Class, abund$Stream), sum)/197)
+
+# total abundance of tadpoles of __A. eugenioi__ of different classes of development between seasons in each stream
+(abund.season.stream.abs <- tapply(abund$Abundance, list(abund$Class, abund$Season, abund$Stream), sum))
+
+(abund.season.stream.rel <- tapply(abund$Abundance, list(abund$Class, abund$Season, abund$Stream), sum)/197)
+
+# test between seasons - stream 2 - class I.1
+boxplot(abund$Abundance[abund$Class == "I.1" & abund$Stream == 2] ~ abund$Season[abund$Class == "I.1"& abund$Stream == 2], ylab = "Number of tadpoles", main = "Class I.1")
+hist(abund$Abundance[abund$Class == "I.1" & abund$Stream == 2], main = "Stream 2 - Class I.1", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "dry" & abund$Class == "I.1" & abund$Stream == 2], main = "Stream 2 - Class I.1 - dry", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "rainy" & abund$Class == "I.1" & abund$Stream == 2], main = "Stream 2 - Class I.1 - rainy", xlab = "Classes of abundances")
+
+summary(aov(formula = abund$Abundance[abund$Class == "I.1" & abund$Stream == 2] ~ abund$Season[abund$Class == "I.1" & abund$Stream == 2], p.adj = "bonfferroni"))
+plot(aov(formula = abund$Abundance[abund$Class == "I.1"  & abund$Stream == 2] ~ abund$Season[abund$Class == "I.1" & abund$Stream == 2]), main = "Stream 1 - Class I.1")
+kruskal.test(abund$Abundance[abund$Class == "I.1" & abund$Stream == 2] ~ abund$Season[abund$Class == "I.1" & abund$Stream == 2])
+
+# test between seasons - stream 2 - class I.2
+boxplot(abund$Abundance[abund$Class == "I.2" & abund$Stream == 2] ~ abund$Season[abund$Class == "I.2"& abund$Stream == 2], ylab = "Number of tadpoles", main = "Class I.2")
+hist(abund$Abundance[abund$Class == "I.2" & abund$Stream == 2], main = "Stream 2 - Class I.2", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "dry" & abund$Class == "I.2" & abund$Stream == 2], main = "Stream 2 - Class I.2 - dry", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "rainy" & abund$Class == "I.2" & abund$Stream == 2], main = "Stream 2 - Class I.2 - rainy", xlab = "Classes of abundances")
+
+summary(aov(formula = abund$Abundance[abund$Class == "I.2" & abund$Stream == 2] ~ abund$Season[abund$Class == "I.2" & abund$Stream == 2]))
+summary(lm(formula = abund$Abundance[abund$Class == "I.2" & abund$Stream == 2] ~ abund$Season[abund$Class == "I.2" & abund$Stream == 2]))
+plot(aov(formula = abund$Abundance[abund$Class == "I.2"  & abund$Stream == 2] ~ abund$Season[abund$Class == "I.2" & abund$Stream == 2]), main = "Stream 2 - Class I.2")
+kruskal.test(abund$Abundance[abund$Class == "I.2" & abund$Stream == 2] ~ abund$Season[abund$Class == "I.2" & abund$Stream == 2])
+
+# test between seasons - stream 2 - class II
+boxplot(abund$Abundance[abund$Class == "II" & abund$Stream == 2] ~ abund$Season[abund$Class == "II" & abund$Stream == 2], ylab = "Number of tadpoles", main = "Class II")
+hist(abund$Abundance[abund$Class == "II" & abund$Stream == 2], main = "Stream 2 - Class II", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "dry" & abund$Class == "II" & abund$Stream == 2], main = "Stream 2 - Class II - dry", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "rainy" & abund$Class == "II" & abund$Stream == 2], main = "Stream 2 - Class II - rainy", xlab = "Classes of abundances")
+
+summary(aov(formula = abund$Abundance[abund$Class == "II" & abund$Stream == 2] ~ abund$Season[abund$Class == "II" & abund$Stream == 2]))
+plot(aov(formula = abund$Abundance[abund$Class == "II"  & abund$Stream == 2] ~ abund$Season[abund$Class == "II" & abund$Stream == 2]), main = "Stream 2 - Class II")
+kruskal.test(abund$Abundance[abund$Class == "II" & abund$Stream == 2] ~ abund$Season[abund$Class == "II" & abund$Stream == 2])
+
+# test between seasons - stream 2 - class III
+boxplot(abund$Abundance[abund$Class == "III" & abund$Stream == 2] ~ abund$Season[abund$Class == "III" & abund$Stream == 2], ylab = "Number of tadpoles", main = "Class III")
+hist(abund$Abundance[abund$Class == "III" & abund$Stream == 2], main = "Stream 2 - Class III", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "dry" & abund$Class == "III" & abund$Stream == 2], main = "Stream 2 - Class III - dry", xlab = "Classes of abundances")
+hist(abund$Abundance[abund$Season == "rainy" & abund$Class == "III" & abund$Stream == 2], main = "Stream 2 - Class III - rainy", xlab = "Classes of abundances")
+
+summary(aov(formula = abund$Abundance[abund$Class == "III" & abund$Stream == 2] ~ abund$Season[abund$Class == "III" & abund$Stream == 2]))
+plot(aov(formula = abund$Abundance[abund$Class == "III"  & abund$Stream == 2] ~ abund$Season[abund$Class == "III" & abund$Stream == 2]), main = "Stream 2 - Class III")
+kruskal.test(abund$Abundance[abund$Class == "III" & abund$Stream == 2] ~ abund$Season[abund$Class == "III" & abund$Stream == 2])
+
+# glm - probabilidade de ocupação entre estações I.1
+summary(glm(formula = freq.stream$x[freq.stream$Group.1 == "I.1" & freq.stream$Group.4 == 2] ~ freq.stream$Group.3[freq.stream$Group.1 == "I.1" & freq.stream$Group.4 == 2], family = "binomial"))
+
+summary(glm(formula = freq.stream$x[freq.stream$Group.4 == 2] ~ freq.stream$Group.3[freq.stream$Group.4 == 2] * freq.stream$Group.1[freq.stream$Group.4 == 2], family = "binomial"))
+
+# glm - probabilidade de ocupação entre estações I.2
+summary(glm(formula = freq.stream$x[freq.stream$Group.1 == "I.2" & freq.stream$Group.4 == 2] ~ freq.stream$Group.3[freq.stream$Group.1 == "I.2" & freq.stream$Group.4 == 2], family = "binomial"))
+
+# glm - probabilidade de ocupação entre estações II
+summary(glm(formula = freq.stream$x[freq.stream$Group.1 == "II" & freq.stream$Group.4 == 2] ~ freq.stream$Group.3[freq.stream$Group.1 == "II" & freq.stream$Group.4 == 2], family = "binomial"))
+
+# glm - probabilidade de ocupação entre estações III
+summary(glm(formula = freq.stream$x[freq.stream$Group.1 == "III" & freq.stream$Group.4 == 2] ~ freq.stream$Group.3[freq.stream$Group.1 == "III" & freq.stream$Group.4 == 2], family = "binomial"))
+
+new <- aggregate(abund$Abundance, list(abund$Months, abund$Stream), sum)
+densidades$AbundR1 <- new$x[new$Group.2 == 1]
+densidades$AbundR2 <- new$x[new$Group.2 == 2]
+
+```
+
+## iii) did tadpoles of each class of development differ in body length between the two streams? 
+
+Mean body length of tadpoles were larger in stream 1 but only differed significantlly in tadpoles of development classes I.1 and I.2. Mean body length of tadpoles of class I.1 (4.57 + 0.43mm) and class I.2 (8.87 + 2.29mm) in stream 1 were larger than in stream 2 (I.1: 3.92 + 0.73mm; I.2: 8.34 + 2.05mm) (ANOVA-I.1; F2.86 = 26.58, R2 = 0.227, p < 0.001; ANOVA-I.2; F2.1303 = 5.84, R2 = 0.003, p = 0.015). We did not find significant differences in body length of tadpoles in class II (ANOVA-II; F2.249 = 2.82, R2 = 0.007, p = 0.094) and class III (Kruskal-Wallis; X2 = 1.617, p = 0.203) between the two streams.
+
+```{r, echo = FALSE, eval = TRUE}
+# mean abundance of tadpoles of __A. eugenioi__ of different calsses of development and seasons
+(bd.length.mean <- tapply(bd.length$`Body length`, list(bd.length$Class, bd.length$Stream), mean))
+
+(bd.length.sd <- tapply(bd.length$`Body length`, list(bd.length$Class, bd.length$Stream), sd))
+
+(bd.length.max <- tapply(bd.length$`Body length`, list(bd.length$Class, bd.length$Stream), max))
+
+(bd.length.min <- tapply(bd.length$`Body length`, list(bd.length$Class, bd.length$Stream), min))
+
+(bd.length.min <- tapply(bd.length$`Body length`, list(bd.length$Class, bd.length$Stream), length))
+
+# test body length between streams - class I.1
+boxplot(bd.length$`Body length`[bd.length$Class == "I.1"] ~ bd.length$Stream[bd.length$Class == "I.1"], ylab = "Body length (mm)", main = "Class I.1")
+hist(bd.length$`Body length`[bd.length$Class == "I.1"], main = "Body length - Class I.1", xlab = "Classes of body lengths")
+hist(bd.length$`Body length`[bd.length$Class == "I.1" & bd.length$Stream == 1], main = "Stream 1 - Class I.1", xlab = "Classes of body lengths")
+hist(bd.length$`Body length`[bd.length$Class == "I.1" & bd.length$Stream == 2], main = "Stream 2 - Class I.1", xlab = "Classes of body lengths")
+
+summary(aov(formula = bd.length$`Body length`[bd.length$Class == "I.1"] ~ bd.length$Stream[bd.length$Class == "I.1"]))
+summary(lm(formula = bd.length$`Body length`[bd.length$Class == "I.1"] ~ bd.length$Stream[bd.length$Class == "I.1"]))
+plot(aov(formula = bd.length$`Body length`[bd.length$Class == "I.1"] ~ bd.length$Stream[bd.length$Class == "I.1"], main = "Body length - Class I.1"))
+kruskal.test(bd.length$`Body length`[bd.length$Class == "I.1"] ~ bd.length$Stream[bd.length$Class == "I.1"])
+
+# test body length between streams - class I.2
+boxplot(bd.length$`Body length`[bd.length$Class == "I.2"] ~ bd.length$Stream[bd.length$Class == "I.2"], ylab = "Body length (mm)", main = "Class I.2")
+hist(bd.length$`Body length`[bd.length$Class == "I.2"], main = "Body length - Class I.2", xlab = "Classes of body lengths")
+hist(bd.length$`Body length`[bd.length$Class == "I.2" & bd.length$Stream == 1], main = "Stream 1 - Class I.2", xlab = "Classes of body lengths")
+hist(bd.length$`Body length`[bd.length$Class == "I.2" & bd.length$Stream == 2], main = "Stream 2 - Class I.2", xlab = "Classes of body lengths")
+
+summary(aov(formula = bd.length$`Body length`[bd.length$Class == "I.2"] ~ bd.length$Stream[bd.length$Class == "I.2"]))
+summary(lm(formula = bd.length$`Body length`[bd.length$Class == "I.2"] ~ bd.length$Stream[bd.length$Class == "I.2"]))
+plot(aov(formula = bd.length$`Body length`[bd.length$Class == "I.2"] ~ bd.length$Stream[bd.length$Class == "I.2"], main = "Body length - Class I.2"))
+kruskal.test(bd.length$`Body length`[bd.length$Class == "I.2"] ~ bd.length$Stream[bd.length$Class == "I.2"])
+
+# test body length between streams - class II
+boxplot(bd.length$`Body length`[bd.length$Class == "II"] ~ bd.length$Stream[bd.length$Class == "II"], ylab = "Body length (mm)", main = "Class II")
+hist(bd.length$`Body length`[bd.length$Class == "II"], main = "Body length - Class II", xlab = "Classes of body lengths")
+hist(bd.length$`Body length`[bd.length$Class == "II" & bd.length$Stream == 1], main = "Stream 1 - Class II", xlab = "Classes of body lengths")
+hist(bd.length$`Body length`[bd.length$Class == "II" & bd.length$Stream == 2], main = "Stream 2 - Class II", xlab = "Classes of body lengths")
+
+summary(aov(formula = bd.length$`Body length`[bd.length$Class == "II"] ~ bd.length$Stream[bd.length$Class == "II"]))
+summary(lm(formula = bd.length$`Body length`[bd.length$Class == "II"] ~ bd.length$Stream[bd.length$Class == "II"]))
+plot(aov(formula = bd.length$`Body length`[bd.length$Class == "II"] ~ bd.length$Stream[bd.length$Class == "II"], main = "Body length - Class II"))
+kruskal.test(bd.length$`Body length`[bd.length$Class == "II"] ~ bd.length$Stream[bd.length$Class == "II"])
+
+# test body length between streams - class III
+boxplot(bd.length$`Body length`[bd.length$Class == "III"] ~ bd.length$Stream[bd.length$Class == "III"], ylab = "Body length (mm)", main = "Class III")
+hist(bd.length$`Body length`[bd.length$Class == "III"], main = "Body length - Class III", xlab = "Classes of body lengths")
+hist(bd.length$`Body length`[bd.length$Class == "III" & bd.length$Stream == 1], main = "Stream 1 - Class III", xlab = "Classes of body lengths")
+hist(bd.length$`Body length`[bd.length$Class == "III" & bd.length$Stream == 2], main = "Stream 2 - Class III", xlab = "Classes of body lengths")
+
+summary(aov(formula = bd.length$`Body length`[bd.length$Class == "III"] ~ bd.length$Stream[bd.length$Class == "III"]))
+summary(lm(formula = bd.length$`Body length`[bd.length$Class == "III"] ~ bd.length$Stream[bd.length$Class == "III"]))
+plot(aov(formula = bd.length$`Body length`[bd.length$Class == "III"] ~ bd.length$Stream[bd.length$Class == "III"], main = "Body length - Class III"))
+kruskal.test(bd.length$`Body length`[bd.length$Class == "III"] ~ bd.length$Stream[bd.length$Class == "III"])
+
+```
+
+## iv) was tadpole abundance affected by the rainfall of the previous month?
+
+The mensal rainfall affected the abundance of tadpoles differently between streams. In stream 1, we observed week but positive relationship between the abundance of tadpoles and rainfall (GLM, p = 0.047; Figure ). Conversely, we found a negative relationship between the abundance of tadpoles and rainfall in stream 2 (GLM, p = 0.013; Figure ).
+
+```{r, echo = FALSE, eval = TRUE}
+
+# glm - abundance x rainfall-1 
+hacked.quasipoisson <- function(...) {
+        res <- quasipoisson(...)
+        res$aic <- poisson(...)$aic
+        res
+} # função para pegar emprestada a estimativa de ML a partir de glm com familia poisson. 
+
+glm.stream3 <- glm(Abundance ~ `Rainfall-1`, data = riacho1, family = hacked.quasipoisson)
+summary(glm.stream3)
+chat3 <- deviance(glm.stream3) / df.residual(glm.stream3)
+plot(glm.stream3)
+
+# glm permanent - null rainfall - 1
+null1 <- glm(Abundance ~ 1, data = riacho1, family = hacked.quasipoisson)
+chat.null <- deviance(null1) / df.residual(null1)
+summary(null1)
+
+glm.stream4 <- glm(Abundance ~ `Rainfall-1`, data = riacho2, family = hacked.quasipoisson)
+chat4 <- deviance(glm.stream4) / df.residual(glm.stream4)
+summary(glm.stream4)
+plot(glm.stream4)
+
+# glm temporary - null rainfall - 1
+null2 <- glm(Abundance ~ 1, data = riacho2, family = hacked.quasipoisson)
+deviance(null2) / df.residual(null2)
+summary(null2)
+
+# glm - abundance x rainfall 
+glm.stream1 <- glm(Abundance ~ Rainfall, data = riacho1, family = hacked.quasipoisson)
+summary(glm.stream1)
+plot(glm.stream1)
+chat1 <- deviance(glm.stream1) / df.residual(glm.stream1)
+abline(glm.stream1)
+
+glm.stream2 <- glm(Abundance ~ Rainfall, data = riacho2, family = hacked.quasipoisson)
+summary(glm.stream2)
+deviance(glm.stream2) / df.residual(glm.stream2)
+plot(glm.stream2)
+plot(riacho2$Rainfall, riacho2$Abundance, xlab = "Rainfall (mm)", ylab = "Number of tadpoles", main = "Stream 2", bty = "L")
+abline(glm.stream2)
+
+# model selection
+require(MuMIn)
+permanent <- model.sel(null1, glm.stream1, glm.stream3,
+          rank = QAIC, 
+          rank.args = list(chat = deviance(glm.stream3) / df.residual(glm.stream3)))
+permanent
+
+temporary <- model.sel(null2, glm.stream2, glm.stream4,
+                       rank = QAIC, 
+          rank.args = list(chat = deviance(glm.stream4) / df.residual(glm.stream4)))
+temporary
+
+##### Including class as covariate and an interaction term whith rainfall and rainfall - 1
+
+R1null <- glm(Abundance ~ 1, data = riacho1, family = hacked.quasipoisson)
+R1mod1 <- glm(Abundance ~ `Rainfall-1`:Class, data = riacho1, family = hacked.quasipoisson)
+summary(R1mod1)
+deviance(R1mod2) / df.residual(R1mod2)
+R1mod2 <- glm(Abundance ~ Rainfall:Class, data = riacho1, family = hacked.quasipoisson)
+summary(R1mod2)
+
+# model selection
+
+permanent <- model.sel(R1null, R1mod1, R1mod2,
+          rank = QAIC, 
+          rank.args = list(chat = deviance(R1null1) / df.residual(R1null1)))
+permanent
+
+# glm temporary - null rainfall - 1
+R2null2 <- glm(Abundance ~ 1, data = riacho2, family = hacked.quasipoisson)
+R2mod1 <- glm(Abundance ~ Rainfall:Class, data = riacho2, family = hacked.quasipoisson)
+R2mod2 <- glm(Abundance ~ `Rainfall-1`:Class, data = riacho2, family = hacked.quasipoisson)
+deviance(R2mod1) / df.residual(R2mod1)
+
+# model selection
+
+temporary <- model.sel(R2null2, R2mod1, R2mod2,
+                       rank = QAIC, 
+          rank.args = list(chat = deviance(R2null2) / df.residual(R2null2)))
+temporary
+summary(R2mod1)
+
+### O que eu acho que ainda daria para fazer, seguindo a lógica do  seu comentário (chuva promove aumento do número de girinos pequenos), é utilizar como covariável o estágio de desenvolvimento e inserir um termo de interação entre chuva e estágio de desenvolvimento. Daí, teríamos como resposta desse modelo a relação da chuva com cada estágio de desenvolvimento. Tipo, aumentou a chuva aumentou o número de girinos recém eclodidos. São 4 estágios de desenvolvimento, logo 4 parâmetros a mais nos modelos. Acham que vale a pena???
+
+```
+```{r, eval = FALSE, echo = FALSE}
+# glm - abundance x rainfall*class
+
+glm.stream1 <- glm(abund$Abundance[abund$Stream == 1] ~ abund$Rainfall[abund$Stream == 1] * abund$Class[abund$Stream == 1], data = abund, family = "poisson")
+summary(glm.stream1)
+
+
+names(abund)
+summary(glm(Abundance ~ Class * Rainfall * Stream, data = abund, family = "poisson"))
+summary(glm(Abundance ~ Class * abund$`Rainfall-1` * Stream, data = abund, family = "poisson"))
+
+summary(glm(Abundance ~ Class * Rainfall * Stream, data = abund, family = "poisson"))
+summary(glm(Abundance ~ Class * abund$`Rainfall-1` * Stream, data = abund, family = "poisson"))
+
+```
+
+## Profundidade e temperatura média de cada intervalo
+### Riacho permanente
+
+``` {r, eval = TRUE, echo = FALSE}
+# Profundidade riacho permanente - total
+min(permanente$`Profundidade (cm)`, na.rm = TRUE)
+max(permanente$`Profundidade (cm)`, na.rm = TRUE)
+mean(permanente$`Profundidade (cm)`, na.rm = TRUE)
+sd(permanente$`Profundidade (cm)`, na.rm = TRUE)
+
+# Profundidade riacho permanente - por intervalo
+min.permanente <- aggregate(x = permanente$`Profundidade (cm)`, by = list(permanente$Intervalo), min, na.rm = TRUE)
+
+max.permanente <- aggregate(x = permanente$`Profundidade (cm)`, by = list(permanente$Intervalo), max, na.rm = TRUE)
+
+mean.permanente <- aggregate(x = permanente$`Profundidade (cm)`, by = list(permanente$Intervalo), mean, na.rm = TRUE)
+
+sd.permanente <- aggregate(x = permanente$`Profundidade (cm)`, by = list(permanente$Intervalo), sd, na.rm = TRUE)
+
+prof_temp_permanente <- data.frame(intervalo = min.permanente$Group.1, `prof min` = min.permanente$x, `prof max` = max.permanente$x, `prof media` = mean.permanente$x, `prof dp` = sd.permanente$x)
+
+# Temperatura riacho permanente - total
+min(permanente$`Temperatura (°C)`, na.rm = TRUE)
+max(permanente$`Temperatura (°C)`, na.rm = TRUE)
+mean(permanente$`Temperatura (°C)`, na.rm = TRUE)
+sd(permanente$`Temperatura (°C)`, na.rm = TRUE)
+
+# Tmepratura riacho permanente - por intervalo
+temp.min.permanente <- aggregate(x = permanente$`Temperatura (°C)`, by = list(permanente$Intervalo), min, na.rm = TRUE)
+
+temp.max.permanente <- aggregate(x = permanente$`Temperatura (°C)`, by = list(permanente$Intervalo), max, na.rm = TRUE)
+
+temp.mean.permanente <- aggregate(x = permanente$`Temperatura (°C)`, by = list(permanente$Intervalo), mean, na.rm = TRUE)
+
+temp.sd.permanente <- aggregate(x = permanente$`Temperatura (°C)`, by = list(permanente$Intervalo), sd, na.rm = TRUE)
+
+prof_temp_permanente <- data.frame(intervalo = min.permanente$Group.1, `prof min` = min.permanente$x, `prof max` = max.permanente$x, `prof media` = mean.permanente$x, `prof dp` = sd.permanente$x, `temp min` = temp.min.permanente$x, `temp max` = temp.max.permanente$x, `temp media` = temp.mean.permanente$x, `temp dp` = temp.sd.permanente$x)
+
+write.table(x = prof_temp_permanente, file = "prof_temp_permanente.txt", sep = " ")
+```
+### Riacho temporário
+
+``` {r, eval = TRUE, echo = FALSE}
+# Profundidade riacho temporário - total
+min(temporario$`Profundidade (cm)`, na.rm = TRUE)
+max(temporario$`Profundidade (cm)`, na.rm = TRUE)
+mean(temporario$`Profundidade (cm)`, na.rm = TRUE)
+sd(temporario$`Profundidade (cm)`, na.rm = TRUE)
+
+# Profundidade riacho temporario - por intervalo
+min.temporario <- aggregate(x = temporario$`Profundidade (cm)`, by = list(temporario$Intervalo), min, na.rm = TRUE)
+
+max.temporario <- aggregate(x = temporario$`Profundidade (cm)`, by = list(temporario$Intervalo), max, na.rm = TRUE)
+
+mean.temporario <- aggregate(x = temporario$`Profundidade (cm)`, by = list(temporario$Intervalo), mean, na.rm = TRUE)
+
+sd.temporario <- aggregate(x = temporario$`Profundidade (cm)`, by = list(temporario$Intervalo), sd, na.rm = TRUE)
+
+# Temperatura riacho temporario - total
+min(temporario$`Temperatura (°C)`, na.rm = TRUE)
+max(temporario$`Temperatura (°C)`, na.rm = TRUE)
+mean(temporario$`Temperatura (°C)`, na.rm = TRUE)
+sd(temporario$`Temperatura (°C)`, na.rm = TRUE)
+
+# Temperatura riacho permanente - por intervalo
+temp.min.temporario <- aggregate(x = temporario$`Temperatura (°C)`, by = list(temporario$Intervalo), min, na.rm = TRUE)
+
+temp.max.temporario <- aggregate(x = temporario$`Temperatura (°C)`, by = list(temporario$Intervalo), max, na.rm = TRUE)
+
+temp.mean.temporario <- aggregate(x = temporario$`Temperatura (°C)`, by = list(temporario$Intervalo), mean, na.rm = TRUE)
+
+temp.sd.temporario <- aggregate(x = temporario$`Temperatura (°C)`, by = list(temporario$Intervalo), sd, na.rm = TRUE)
+
+prof_temp_temporario <- data.frame(intervalo = min.temporario$Group.1, `prof min` = min.temporario$x, `prof max` = max.temporario$x, `prof media` = mean.temporario$x, `prof dp` = sd.temporario$x, `temp min` = temp.min.temporario$x, `temp max` = temp.max.temporario$x, `temp media` = temp.mean.temporario$x, `temp dp` = temp.sd.temporario$x)
+prof_temp_temporario <- prof_temp_temporario[-10, ]
+
+write.table(x = prof_temp_temporario, file = "prof_temp_temporario.txt", sep = " ")
+
+# Difference in depth between streams
+depth.temp <- rbind(prof_temp_permanente, prof_temp_temporario)
+depth.temp <- data.frame(stream = rep(c(1, 2), each = 25), depth.temp)
+
+boxplot(depth.temp$prof.media ~ depth.temp$stream, ylab = "Depth (cm)")
+hist(depth.temp$prof.media[depth.temp$stream == "1"], main = "Stream 1", xlab = "Depth")
+hist(depth.temp$prof.media[depth.temp$stream == "2"], main = "Stream 2", xlab = "Depth")
+summary(aov(formula = prof.media ~ stream, data = depth.temp))
+plot(aov(formula = prof.media ~ stream, data = depth.temp))
+kruskal.test(prof.media ~ stream, data = depth.temp)
+
+# com todas as observações
+
+names(temporario)
+names(permanente)
+nrow(temporario)
+nrow(permanente)
+
+prof.perm <- permanente$`Profundidade (cm)`[!is.na(permanente$`Profundidade (cm)`)]
+temp.perm <- permanente$`Temperatura (°C)`[!is.na(permanente$`Temperatura (°C)`)]
+
+prof.temp <- temporario$`Profundidade (cm)`[!is.na(temporario$`Profundidade (cm)`)]
+tempp.temp <- temporario$`Temperatura (°C)`[!is.na(temporario$`Temperatura (°C)`)]
+
+prof <- data.frame(stream = c(rep(1, length(prof.perm)), rep(2, length(prof.temp))), prof = c(prof.perm, prof.temp))
+
+temp <- data.frame(stream = c(rep(1, length(temp.perm)), rep(2, length(tempp.temp))), temp = c(temp.perm, tempp.temp))
+
+depth <- data.frame(stream = c(1, 2), mean = c(mean(prof.perm), mean(prof.temp)), sd = c(sd(prof.perm), sd(prof.temp)), min = c(min(prof.perm), min(prof.temp)), max = c(max(prof.perm), max(prof.temp)))
+
+
+boxplot(prof$prof ~ prof$stream, ylab = "Depth (cm)")
+hist(prof$prof[prof$stream == "1"], main = "Stream 1", xlab = "Depth")
+hist(prof$prof[prof$stream == "2"], main = "Stream 2", xlab = "Depth")
+summary(aov(formula = prof ~ stream, data = prof))
+plot(aov(formula = prof ~ stream, data = prof))
+kruskal.test(formula = prof ~ stream, data = prof)
+
+temp.desc <- data.frame(stream = c(1, 2), mean = c(mean(temp.perm), mean(tempp.temp)), sd = c(sd(temp.perm), sd(tempp.temp)), min = c(min(temp.perm), min(tempp.temp)), max = c(max(temp.perm), max(tempp.temp)))
+
+boxplot(temp$temp ~ temp$stream, ylab = "Temperature")
+hist(temp$temp[temp$stream == "1"], main = "Stream 1", xlab = "Temperature")
+hist(temp$temp[temp$stream == "2"], main = "Stream 2", xlab = "Temperature")
+summary(aov(formula = temp ~ stream, data = temp))
+summary(lm(formula = temp ~ stream, data = temp))
+plot(aov(formula = temp ~ stream, data = temp))
+kruskal.test(formula = temp ~ stream, data = temp)
+
+```
+
+

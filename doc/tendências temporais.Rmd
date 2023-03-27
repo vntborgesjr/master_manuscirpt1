@@ -1,0 +1,47 @@
+---
+title: "Tendencias temporais"
+author: "Vitor Borges Jr"
+date: "2 de agosto de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(readxl)
+densidades <- read.table("Rainfall_Ilha_Grande.txt", header = TRUE)
+densidades2 <- data.frame(month = rep(densidades$Month, 3), abundance = c(densidades$Rainfall/6, densidades$AbundR1, densidades$AbundR2), lines = c(rep(c("Rainfall", "R1", "R2"), each = 36)))
+
+```
+
+## Riacho permanente
+
+O riacho permanente apresentou tendência de aumento no tamanho do segmento populacional em estágio larvar.
+
+``` {r, eval = TRUE, echo = FALSE}
+abundR1 <- densidades2[densidades2$lines == "R1", c("abundance")]
+abundR1_ts <- ts(data = abundR1, start = c(1, 1), end = c(3, 12), frequency = 12)
+plot(abundR1_ts, xlab = "Years", ylab = "Count of tadpoles")
+abline(lm(abundR1_ts ~ time(abundR1_ts)))
+summary(lm(abundR1_ts ~ time(abundR1_ts)))
+```
+
+## Riacho temporário
+
+O riacho temporário apresentou tendência de diminuição no tamanho do segmento populacional em estágio larvar.
+
+``` {r, eval = TRUE, echo = FALSE}
+abundR2 <- densidades2[densidades2$lines == "R2", c("abundance")]
+abundR2_ts <- ts(data = abundR2, start = c(1, 1), end = c(3, 12), frequency = 12)
+plot(abundR2_ts, xlab = "Years", ylab = "Count of tadpoles")
+abline(lm(abundR2_ts ~ time(abundR2_ts)))
+summary(lm(abundR2_ts ~ time(abundR2_ts)))
+```
+
+## Chuva
+
+``` {r, eval = TRUE, echo = FALSE}
+chuva <- densidades2[densidades2$lines == "Rainfall", c("abundance")]
+chuva <- ts(data = chuva, start = c(1, 1), end = c(3, 12), frequency = 12)
+plot(chuva, xlab = "Years", ylab = "Rainfall (mm)")
+abline(lm(chuva ~ time(chuva)))
+```

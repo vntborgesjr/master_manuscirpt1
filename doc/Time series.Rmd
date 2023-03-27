@@ -1,0 +1,166 @@
+---
+title: "Time series"
+author: "Vitor Borges Jr"
+date: "19/07/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Basics - Time Series Modeling
+
+There are few premisses we need to check before proceed with time series analyses.
+
+## Stationary Series
+
+To be calssified as stationary a series must meet three basic criterion:
+        1. The mean of the series should not be a function of time rather should be a constant.
+        2. The variance of the series should not be a function of time (homocedasticity).
+        3. The covariance of the i th term and the (i + m) th term should not be a function of time.
+
+## Why do I care about 'stationarity' of a time series?
+
+## Random Walk
+
+
+
+## 2. Explotration of time series data in R
+
+Loading the data set
+
+```{r}
+data("AirPassengers")
+```
+
+The data serires must be in a time series format
+
+```{r}
+class(AirPassengers)
+```
+
+The strat of the time series
+
+```{r}
+start(AirPassengers)
+```
+
+The end of the time series
+
+```{r}
+end(AirPassengers)
+```
+
+The cycle of this time series is 12 months in a year
+
+```{r}
+frequency(AirPassengers)
+summary(AirPassengers)
+```
+
+# Detailed metrics
+
+plot of the time series - the number of passengers are distributed across the spectrum
+
+```{r}
+plot(AirPassengers)
+```
+
+Fit in a line
+
+```{r}
+plot(AirPassengers)
+abline(lm(AirPassengers ~ time(AirPassengers)))
+```
+
+Print the cycle across years
+
+```{r}
+cycle(AirPassengers)
+```
+
+Aggregate the cylces and display a year on year trend
+
+```{r}
+plot(aggregate(AirPassengers, FUN = mean))
+```
+
+Box plot across months will give us a sense on seasona effect
+
+```{r}
+boxplot(AirPassengers ~ cycle(AirPassengers))
+```
+
+## Important inferences
+
+1. The year on year trend cleaerly shows that the passengers have been increrasing without fail
+2. The variance and the mean value in July and August is much higher than rest of the months
+3. Even  though the mean value of each month is quite different their variance is small. Hence, we have strong seasonal effects with a cycle of 12 months or less.
+
+## 3. Introduction to ARMA time series modeling
+
+In ARMA, AR stands for autorregressive and MA stands for moving average
+
+## Auto-regressive Time Series Model
+
+## Moving Average Time Series Model
+
+## Difference between AR and MA models
+
+## Exploiting ACF and PACF plots
+
+## 4. Framework and Application of ARIMA Time Series Modeling
+
+## Overview of the framework
+
+*How to do a time series analyses:*
+
+1. Visualize the time series;
+2. Stationarize the time series;
+3. Plot ACF/PACF charts and find optimal parameters;
+4. Build the ARIMA model;
+5. Make predictions.
+
+## Step 1: Visualize the time series
+
+## Step 2 : Stationarize the series
+
+## Step 3: Find optimal parameters
+
+## Step 4: Build ARIMA model
+
+## Step 5: Make predicitons
+
+## Application of time series model
+
+## Where did we start?
+
+We need to remove unequal variances. We do this using log of the series. We need to address the trend component. We do this by taking difference of the series.
+
+```{r, eval = TRUE, echo = FALSE}
+adf.test(diff(log(AirPassengers)), alternative="stationary", k=0)
+
+```
+
+Next step is to find the right parameters to be used in the ARIMA model. We already know that the 'd' component is 1 as we need 1 difference to make the series stationary. We do this using the correlation plot.
+
+```{r, eval = TRUE, echo = FALSE}
+acf(diff(log(AirPassengers)))
+pacf(diff(log(AirPassengers)))
+```
+
+Clearly, ACF plot cuts off after the first lag. Hence, we understood that value of p should be 0 as the ACF is the curve getting a cut off. While value of q should be 1 or 2. After a few iterations, we found that (0,1,1) as (p,d,q) comes out to be the combination with least AIC and BIC.
+
+Let’s fit an ARIMA model and predict the future 10 years. Also, we will try fitting in a seasonal component in the ARIMA formulation. Then, we will visualize the prediction along with the training data. You can use the following code to do the same:
+
+```{r, eval = TRUE, echo = FALSE}
+(fit <- arima(log(AirPassengers), c(0, 1, 1),seasonal = list(order = c(0, 1, 1), period = 12)))
+
+pred <- predict(fit, n.ahead = 10*12)
+
+ts.plot(AirPassengers,2.718^pred$pred, log = "y", lty = c(1,3))
+```
+
+
+## 4. 
